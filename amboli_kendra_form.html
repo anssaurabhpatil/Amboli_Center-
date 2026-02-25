@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>अंबोली केंद्र - नोंदणी फॉर्म</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #E8621A;
+    --deep: #1A1209;
+    --cream: #FDF6EC;
+    --gold: #C9902A;
+    --green: #2E6B3E;
+    --light-green: #EAF4EE;
+    --border: #D4B896;
+    --shadow: rgba(232, 98, 26, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(232,98,26,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(46,107,62,0.06) 0%, transparent 50%);
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--green) 0%, #1d4d2b 100%);
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '🌿';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.07;
+    top: -1rem;
+    left: -1rem;
+  }
+  .header::after {
+    content: '🌿';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.07;
+    bottom: -1rem;
+    right: -1rem;
+    transform: scaleX(-1);
+  }
+
+  .header h1 {
+    font-family: 'Tiro Devanagari Marathi', serif;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.3rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    letter-spacing: 0.05em;
+  }
+
+  .form-container {
+    max-width: 680px;
+    margin: 2rem auto;
+    padding: 0 1rem 3rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 24px var(--shadow);
+  }
+
+  .card-title {
+    font-family: 'Tiro Devanagari Marathi', serif;
+    color: var(--green);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--light-green);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-grid .full-width { grid-column: 1 / -1; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  label span.req { color: var(--saffron); }
+
+  input, select, textarea {
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #E0D5C8;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--deep);
+    background: #FAFAF8;
+    transition: all 0.2s;
+    outline: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--green);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(46,107,62,0.1);
+  }
+
+  .age-display {
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #E0D5C8;
+    border-radius: 10px;
+    background: var(--light-green);
+    color: var(--green);
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+  }
+
+  .radio-group {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--deep);
+  }
+
+  .radio-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--green);
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+  }
+
+  .email-config {
+    background: linear-gradient(135deg, #EAF4EE, #F0F8F3);
+    border: 1.5px solid #B8DFC4;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .email-config .card-title {
+    border-bottom-color: #B8DFC4;
+    margin-bottom: 1rem;
+  }
+
+  .info-box {
+    background: #FFF8F0;
+    border: 1px solid #F0D8B8;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.83rem;
+    color: #8B5E2A;
+    margin-top: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--green), #1d4d2b);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(46,107,62,0.3);
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(46,107,62,0.4);
+  }
+
+  .submit-btn:active { transform: translateY(0); }
+
+  .success-msg {
+    display: none;
+    background: var(--light-green);
+    border: 1.5px solid var(--green);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--green);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 520px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid .full-width { grid-column: 1; }
+    .header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌿 अंबोली केंद्र</h1>
+  <p>सदस्य नोंदणी फॉर्म | Member Registration Form</p>
+</div>
+
+<div class="form-container">
+
+  <!-- Email Configuration -->
+  <div class="email-config">
+    <div class="card-title">⚙️ Email Setup (एकदाच करा)</div>
+    <div class="form-grid">
+      <div class="field full-width">
+        <label>तुमचा Email (डेटा येणार)</label>
+        <input type="email" id="adminEmail" placeholder="tumcha@email.com" value="">
+      </div>
+      <div class="field full-width">
+        <label>EmailJS Service ID</label>
+        <input type="text" id="serviceId" placeholder="service_xxxxxxx">
+      </div>
+      <div class="field full-width">
+        <label>EmailJS Template ID</label>
+        <input type="text" id="templateId" placeholder="template_xxxxxxx">
+      </div>
+      <div class="field full-width">
+        <label>EmailJS Public Key</label>
+        <input type="text" id="publicKey" placeholder="xxxxxxxxxxxxxxxxxxxx">
+      </div>
+    </div>
+    <div class="info-box">
+      ℹ️ <strong>Free Email Setup:</strong> emailjs.com वर जाऊन free account बनवा → Email Service connect करा → Template बनवा → वरील IDs टाका. प्रत्येक form submission तुमच्या email वर येईल!
+    </div>
+  </div>
+
+  <!-- Personal Details -->
+  <div class="card">
+    <div class="card-title">👤 वैयक्तिक माहिती</div>
+    <div class="form-grid">
+      <div class="field full-width">
+        <label>पूर्ण नाव <span class="req">*</span></label>
+        <input type="text" id="fullName" placeholder="पूर्ण नाव लिहा" required>
+      </div>
+
+      <div class="field full-width">
+        <label>लिंग (Gender) <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="gender" value="पुरुष"> पुरुष</label>
+          <label class="radio-option"><input type="radio" name="gender" value="स्त्री"> स्त्री</label>
+          <label class="radio-option"><input type="radio" name="gender" value="इतर"> इतर</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>जन्मतारीख (DOB) <span class="req">*</span></label>
+        <input type="date" id="dob" onchange="calculateAge()">
+      </div>
+
+      <div class="field">
+        <label>वय (Auto Calculate)</label>
+        <div class="age-display" id="ageDisplay">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Details -->
+  <div class="card">
+    <div class="card-title">📞 संपर्क माहिती</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>WhatsApp नंबर <span class="req">*</span></label>
+        <input type="tel" id="whatsapp" placeholder="9XXXXXXXXX" maxlength="10">
+      </div>
+
+      <div class="field">
+        <label>Calling नंबर</label>
+        <input type="tel" id="calling" placeholder="9XXXXXXXXX" maxlength="10">
+      </div>
+
+      <div class="field full-width">
+        <label>Email ID</label>
+        <input type="email" id="memberEmail" placeholder="member@email.com">
+      </div>
+
+      <div class="field full-width">
+        <label>राहण्याचा पत्ता <span class="req">*</span></label>
+        <textarea id="address" rows="3" placeholder="गाव, तालुका, जिल्हा..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Amboli Kendra Details -->
+  <div class="card">
+    <div class="card-title">🌿 अंबोली केंद्र माहिती</div>
+    <div class="form-grid">
+      <div class="field full-width">
+        <label>बापू कडे कधीपासून येता? <span class="req">*</span></label>
+        <input type="text" id="sinceWhen" placeholder="उदा: 2 वर्षांपासून / 2022 पासून">
+      </div>
+
+      <div class="field">
+        <label>Job / Business <span class="req">*</span></label>
+        <input type="text" id="jobBusiness" placeholder="उदा: शेती, व्यापार, नोकरी">
+      </div>
+
+      <div class="field">
+        <label>क्षेत्र (Field) <span class="req">*</span></label>
+        <select id="field">
+          <option value="">निवडा...</option>
+          <option>शेती / Agriculture</option>
+          <option>व्यापार / Business</option>
+          <option>सरकारी नोकरी</option>
+          <option>खाजगी नोकरी</option>
+          <option>शिक्षण / Education</option>
+          <option>आरोग्य / Health</option>
+          <option>तंत्रज्ञान / Technology</option>
+          <option>इतर / Other</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="submit-btn" onclick="submitForm()">
+    ✅ नोंदणी सादर करा
+  </button>
+
+  <div class="success-msg" id="successMsg">
+    🎉 नोंदणी यशस्वी झाली! माहिती email वर पाठवली गेली.
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+function calculateAge() {
+  const dob = document.getElementById('dob').value;
+  if (!dob) return;
+  const today = new Date();
+  const birth = new Date(dob);
+  let years = today.getFullYear() - birth.getFullYear();
+  let months = today.getMonth() - birth.getMonth();
+  if (months < 0 || (months === 0 && today.getDate() < birth.getDate())) {
+    years--;
+    months = months < 0 ? 12 + months : months;
+  }
+  if (today.getDate() < birth.getDate()) months = (months - 1 + 12) % 12;
+  document.getElementById('ageDisplay').textContent = `${years} वर्षे ${months} महिने`;
+}
+
+function getGender() {
+  const sel = document.querySelector('input[name="gender"]:checked');
+  return sel ? sel.value : '';
+}
+
+function submitForm() {
+  const required = ['fullName', 'dob', 'whatsapp', 'address', 'sinceWhen', 'jobBusiness'];
+  for (const id of required) {
+    if (!document.getElementById(id).value.trim()) {
+      alert('कृपया सर्व * fields भरा!');
+      document.getElementById(id).focus();
+      return;
+    }
+  }
+  if (!getGender()) { alert('कृपया लिंग निवडा!'); return; }
+
+  const serviceId = document.getElementById('serviceId').value.trim();
+  const templateId = document.getElementById('templateId').value.trim();
+  const publicKey = document.getElementById('publicKey').value.trim();
+  const adminEmail = document.getElementById('adminEmail').value.trim();
+
+  const data = {
+    to_email: adminEmail,
+    full_name: document.getElementById('fullName').value,
+    gender: getGender(),
+    dob: document.getElementById('dob').value,
+    age: document.getElementById('ageDisplay').textContent,
+    whatsapp: document.getElementById('whatsapp').value,
+    calling: document.getElementById('calling').value || 'नाही',
+    member_email: document.getElementById('memberEmail').value || 'नाही',
+    address: document.getElementById('address').value,
+    since_when: document.getElementById('sinceWhen').value,
+    job_business: document.getElementById('jobBusiness').value,
+    field: document.getElementById('field').value || 'नाही',
+    submitted_at: new Date().toLocaleString('mr-IN')
+  };
+
+  if (!serviceId || !templateId || !publicKey) {
+    // Show data in alert if EmailJS not configured
+    const msg = Object.entries(data).map(([k,v]) => `${k}: ${v}`).join('\n');
+    alert('⚠️ EmailJS setup नाही.\n\nडेटा:\n' + msg);
+    return;
+  }
+
+  emailjs.init(publicKey);
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = '⏳ पाठवत आहे...';
+  btn.disabled = true;
+
+  emailjs.send(serviceId, templateId, data)
+    .then(() => {
+      document.getElementById('successMsg').style.display = 'block';
+      btn.textContent = '✅ पाठवले!';
+      document.querySelector('form') && document.querySelector('form').reset();
+    })
+    .catch((err) => {
+      alert('Error: ' + JSON.stringify(err) + '\nEmailJS settings तपासा.');
+      btn.textContent = '✅ नोंदणी सादर करा';
+      btn.disabled = false;
+    });
+}
+</script>
+</body>
+</html>
