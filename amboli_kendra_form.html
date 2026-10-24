@@ -3,455 +3,1984 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>अंबोली केंद्र - नोंदणी फॉर्म</title>
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Amboli Aniruddha Upasana App</title>
 <style>
-  :root {
-    --saffron: #E8621A;
-    --deep: #1A1209;
-    --cream: #FDF6EC;
-    --gold: #C9902A;
-    --green: #2E6B3E;
-    --light-green: #EAF4EE;
-    --border: #D4B896;
-    --shadow: rgba(232, 98, 26, 0.12);
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #f5f0e8; color: #2c2c2a; font-size: 15px; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #e0d9ce; display: flex; z-index: 100; }
+.nav-btn { flex: 1; padding: 9px 2px 7px; border: none; background: none; font-size: 9px; color: #888; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.nav-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.nav-btn.active { color: #b5470b; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    min-height: 100vh;
-    background-image: 
-      radial-gradient(circle at 10% 20%, rgba(232,98,26,0.06) 0%, transparent 50%),
-      radial-gradient(circle at 90% 80%, rgba(46,107,62,0.06) 0%, transparent 50%);
-  }
+.page { display: none; padding: 14px 13px 80px; min-height: 100vh; }
+.page.active { display: block; }
 
-  .header {
-    background: linear-gradient(135deg, var(--green) 0%, #1d4d2b 100%);
-    color: white;
-    text-align: center;
-    padding: 2rem 1rem 1.5rem;
-    position: relative;
-    overflow: hidden;
-  }
+.topbar { background: #b5470b; color: #fff; padding: 12px 16px 10px; position: sticky; top: 0; z-index: 50; }
+.topbar h1 { font-size: 15px; font-weight: 700; }
+.topbar small { font-size: 11px; opacity: 0.85; }
 
-  .header::before {
-    content: '🌿';
-    position: absolute;
-    font-size: 8rem;
-    opacity: 0.07;
-    top: -1rem;
-    left: -1rem;
-  }
-  .header::after {
-    content: '🌿';
-    position: absolute;
-    font-size: 8rem;
-    opacity: 0.07;
-    bottom: -1rem;
-    right: -1rem;
-    transform: scaleX(-1);
-  }
+.card { background: #fff; border-radius: 12px; border: 0.5px solid #ddd6c8; padding: 14px 15px; margin-bottom: 12px; }
+.card-title { font-size: 12px; color: #888; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  .header h1 {
-    font-family: 'Tiro Devanagari Marathi', serif;
-    font-size: 2rem;
-    letter-spacing: 0.02em;
-    margin-bottom: 0.3rem;
-  }
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.stat-box { background: #fff3ed; border-radius: 10px; padding: 11px 13px; border: 0.5px solid #f0c8a8; }
+.stat-box .num { font-size: 20px; font-weight: 700; color: #b5470b; }
+.stat-box .lbl { font-size: 11px; color: #b5470b; opacity: 0.75; margin-top: 2px; }
+.stat-box.green { background: #eaf3de; border-color: #c0dd97; }
+.stat-box.green .num, .stat-box.green .lbl { color: #3b6d11; }
+.stat-box.red { background: #fcebeb; border-color: #f09595; }
+.stat-box.red .num, .stat-box.red .lbl { color: #a32d2d; }
+.stat-box.blue { background: #e6f1fb; border-color: #85b7eb; }
+.stat-box.blue .num, .stat-box.blue .lbl { color: #185fa5; }
 
-  .header p {
-    font-size: 0.9rem;
-    opacity: 0.85;
-    letter-spacing: 0.05em;
-  }
+label { font-size: 13px; color: #555; display: block; margin-bottom: 4px; margin-top: 11px; }
+input, select, textarea { width: 100%; padding: 10px 11px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #fff; color: #2c2c2a; }
+input:focus, select:focus { outline: 2px solid #b5470b; border-color: transparent; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  .form-container {
-    max-width: 680px;
-    margin: 2rem auto;
-    padding: 0 1rem 3rem;
-  }
+.btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 13px; }
+.btn-primary { background: #b5470b; color: #fff; }
+.btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 7px; border: none; cursor: pointer; margin-top: 0; width: auto; }
 
-  .card {
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 24px var(--shadow);
-  }
+.list-item { background: #fff; border-radius: 10px; border: 0.5px solid #e0d9ce; padding: 11px 13px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; }
+.list-item .name { font-weight: 600; font-size: 14px; }
+.list-item .sub { font-size: 12px; color: #888; margin-top: 2px; }
+.list-item .amount { font-weight: 700; color: #b5470b; font-size: 14px; text-align: right; }
+.list-item .date { font-size: 11px; color: #aaa; text-align: right; margin-top: 2px; }
 
-  .card-title {
-    font-family: 'Tiro Devanagari Marathi', serif;
-    color: var(--green);
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--light-green);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
+.badge { display: inline-block; padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-green { background: #e6f5e0; color: #3b6d11; }
+.badge-amber { background: #fff3da; color: #854f0b; }
+.badge-red { background: #fce8e8; color: #a32d2d; }
+.badge-blue { background: #e6f1fb; color: #185fa5; }
+.badge-purple { background: #eeedfe; color: #534ab7; }
 
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
+.tabs { display: flex; gap: 5px; margin-bottom: 13px; }
+.tab { flex: 1; padding: 8px 3px; text-align: center; font-size: 12px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #888; cursor: pointer; }
+.tab.active { background: #b5470b; color: #fff; border-color: #b5470b; }
 
-  .form-grid .full-width { grid-column: 1 / -1; }
+.sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.sec-head h2 { font-size: 15px; font-weight: 600; }
+.sec-head button { background: #b5470b; color: #fff; border: none; border-radius: 8px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
 
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: flex-end; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: #fff; border-radius: 18px 18px 0 0; padding: 18px 15px 28px; width: 100%; max-height: 90vh; overflow-y: auto; }
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.modal-head h3 { font-size: 16px; font-weight: 700; }
+.modal-close { font-size: 22px; background: none; border: none; cursor: pointer; color: #888; }
 
-  label {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #555;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
+.inv-bar-wrap { background: #f0ebe0; border-radius: 6px; height: 7px; margin-top: 5px; }
+.inv-bar { height: 7px; border-radius: 6px; }
 
-  label span.req { color: var(--saffron); }
+.alert { border-radius: 10px; padding: 11px 13px; margin-bottom: 9px; font-size: 13px; display: flex; align-items: flex-start; gap: 9px; }
+.alert-warn { background: #fff3da; border: 1px solid #f0c060; color: #854f0b; }
+.alert-info { background: #e6f1fb; border: 1px solid #85b7eb; color: #185fa5; }
 
-  input, select, textarea {
-    padding: 0.75rem 1rem;
-    border: 1.5px solid #E0D5C8;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    color: var(--deep);
-    background: #FAFAF8;
-    transition: all 0.2s;
-    outline: none;
-  }
+.progress-track { background: #e8ddd0; border-radius: 6px; height: 9px; }
+.progress-fill { height: 9px; border-radius: 6px; background: #b5470b; }
 
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--green);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(46,107,62,0.1);
-  }
+.empty { text-align: center; color: #aaa; font-size: 13px; padding: 26px 0; }
 
-  .age-display {
-    padding: 0.75rem 1rem;
-    border: 1.5px solid #E0D5C8;
-    border-radius: 10px;
-    background: var(--light-green);
-    color: var(--green);
-    font-weight: 600;
-    font-size: 0.95rem;
-    min-height: 46px;
-    display: flex;
-    align-items: center;
-  }
+/* HOME MODULE GRID */
+.home-modules { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+.module-card { background: #fff; border-radius: 14px; border: 0.5px solid #ddd6c8; padding: 16px 13px 13px; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; transition: background 0.15s; }
+.module-card:active { background: #fff7f2; }
+.module-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.module-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
+.module-card .mod-title { font-size: 13px; font-weight: 600; color: #2c2c2a; }
+.module-card .mod-sub { font-size: 11px; color: #888; }
 
-  .radio-group {
-    display: flex;
-    gap: 1rem;
-    padding: 0.5rem 0;
-  }
+/* DASHBOARD CHART */
+.chart-wrap { position: relative; width: 100%; }
+canvas { display: block; width: 100% !important; }
 
-  .radio-option {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    cursor: pointer;
-    font-size: 0.95rem;
-    color: var(--deep);
-  }
+/* SEVA VOLUNTEER BAR */
+.vol-bar { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.vol-track { flex: 1; background: #e8ddd0; border-radius: 5px; height: 7px; }
+.vol-fill { height: 7px; border-radius: 5px; background: #1d9e75; }
 
-  .radio-option input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--green);
-    padding: 0;
-    border: none;
-    background: none;
-    box-shadow: none;
-  }
+/* USER ROLE TAG */
+.role-tag { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+.role-admin { background: #eeedfe; color: #534ab7; }
+.role-volunteer { background: #e6f5e0; color: #3b6d11; }
+.role-member { background: #fff3da; color: #854f0b; }
 
-  .email-config {
-    background: linear-gradient(135deg, #EAF4EE, #F0F8F3);
-    border: 1.5px solid #B8DFC4;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .email-config .card-title {
-    border-bottom-color: #B8DFC4;
-    margin-bottom: 1rem;
-  }
-
-  .info-box {
-    background: #FFF8F0;
-    border: 1px solid #F0D8B8;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    font-size: 0.83rem;
-    color: #8B5E2A;
-    margin-top: 0.75rem;
-    line-height: 1.5;
-  }
-
-  .submit-btn {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, var(--green), #1d4d2b);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.03em;
-    transition: all 0.3s;
-    box-shadow: 0 4px 16px rgba(46,107,62,0.3);
-  }
-
-  .submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(46,107,62,0.4);
-  }
-
-  .submit-btn:active { transform: translateY(0); }
-
-  .success-msg {
-    display: none;
-    background: var(--light-green);
-    border: 1.5px solid var(--green);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    color: var(--green);
-    font-weight: 600;
-    font-size: 1rem;
-    margin-top: 1rem;
-  }
-
-  @media (max-width: 520px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .form-grid .full-width { grid-column: 1; }
-    .header h1 { font-size: 1.5rem; }
-  }
+/* LOGIN SCREEN */
+#login-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; background: linear-gradient(160deg,#f5f0e8 60%,#ffe8d6); padding: 24px 20px; }
+#login-screen .login-box { background:#fff; border-radius:20px; padding:28px 22px 24px; width:100%; max-width:380px; box-shadow: 0 4px 24px rgba(181,71,11,0.12); }
+#login-screen .login-logo { text-align:center; margin-bottom:18px; }
+#login-screen .login-logo .icon { font-size:44px; }
+#login-screen .login-logo h2 { font-size:16px; font-weight:700; color:#b5470b; margin-top:6px; }
+#login-screen .login-logo small { font-size:12px; color:#888; }
+#login-err { color:#a32d2d; font-size:13px; text-align:center; margin-top:10px; display:none; background:#fce8e8; border-radius:8px; padding:8px 12px; }
+#app-shell { display:none; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🌿 अंबोली केंद्र</h1>
-  <p>सदस्य नोंदणी फॉर्म | Member Registration Form</p>
+<!-- =================== LOGIN SCREEN =================== -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="icon">🙏</div>
+      <h2>Amboli Aniruddha Upasana App</h2>
+      <small>अंबोली अनिरुद्ध उपासना केंद्र</small>
+    </div>
+    <label style="margin-top:0">Username</label>
+    <input type="text" id="li-user" placeholder="तुमचे username" autocomplete="username" autocapitalize="none" />
+    <label>Password</label>
+    <div style="position:relative">
+      <input type="password" id="li-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()" />
+      <button onclick="togglePw()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px" id="pw-eye">👁</button>
+    </div>
+    <div id="login-err">❌ चुकीचा username किंवा password</div>
+    <button class="btn btn-primary" style="margin-top:18px" onclick="doLogin()">🔐 Login</button>
+    <p style="text-align:center;font-size:11px;color:#aaa;margin-top:14px">फक्त अधिकृत सदस्यांसाठी</p>
+  </div>
 </div>
 
-<div class="form-container">
+<!-- =================== MAIN APP SHELL =================== -->
+<div id="app-shell">
 
-  <!-- Email Configuration -->
-  <div class="email-config">
-    <div class="card-title">⚙️ Email Setup (एकदाच करा)</div>
-    <div class="form-grid">
-      <div class="field full-width">
-        <label>तुमचा Email (डेटा येणार)</label>
-        <input type="email" id="adminEmail" placeholder="tumcha@email.com" value="">
-      </div>
-      <div class="field full-width">
-        <label>EmailJS Service ID</label>
-        <input type="text" id="serviceId" placeholder="service_xxxxxxx">
-      </div>
-      <div class="field full-width">
-        <label>EmailJS Template ID</label>
-        <input type="text" id="templateId" placeholder="template_xxxxxxx">
-      </div>
-      <div class="field full-width">
-        <label>EmailJS Public Key</label>
-        <input type="text" id="publicKey" placeholder="xxxxxxxxxxxxxxxxxxxx">
-      </div>
+<div class="topbar">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h1>🙏 Amboli Aniruddha Upasana App</h1>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button onclick="syncFromSheets()" style="background:rgba(255,255,255,0.2);border:none;border-radius:7px;color:#fff;padding:4px 9px;font-size:12px;cursor:pointer">🔄</button>
+      <button onclick="doLogout()" style="background:rgba(255,255,255,0.2);border:none;border-radius:7px;color:#fff;padding:4px 9px;font-size:12px;cursor:pointer">⏻</button>
     </div>
-    <div class="info-box">
-      ℹ️ <strong>Free Email Setup:</strong> emailjs.com वर जाऊन free account बनवा → Email Service connect करा → Template बनवा → वरील IDs टाका. प्रत्येक form submission तुमच्या email वर येईल!
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">
+    <small id="topbar-date"></small>
+    <small id="topbar-user" style="font-size:11px;opacity:0.85"></small>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <small id="sync-status" style="font-size:11px"></small>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="stat-row" style="margin-top:13px">
+    <div class="stat-box green">
+      <div class="num" id="home-don">₹0</div>
+      <div class="lbl">या महिन्याची स्वेच्छानिधी</div>
+    </div>
+    <div class="stat-box red">
+      <div class="num" id="home-exp">₹0</div>
+      <div class="lbl">या महिन्याचे खर्च</div>
+    </div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box blue">
+      <div class="num" id="home-surplus">₹0</div>
+      <div class="lbl">शिल्लक</div>
+    </div>
+    <div class="stat-box">
+      <div class="num" id="home-members">0</div>
+      <div class="lbl">एकूण सदस्य</div>
     </div>
   </div>
 
-  <!-- Personal Details -->
-  <div class="card">
-    <div class="card-title">👤 वैयक्तिक माहिती</div>
-    <div class="form-grid">
-      <div class="field full-width">
-        <label>पूर्ण नाव <span class="req">*</span></label>
-        <input type="text" id="fullName" placeholder="पूर्ण नाव लिहा" required>
-      </div>
+  <div id="low-stock-alerts"></div>
+  <div id="bday-alerts"></div>
 
-      <div class="field full-width">
-        <label>लिंग (Gender) <span class="req">*</span></label>
-        <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="gender" value="पुरुष"> पुरुष</label>
-          <label class="radio-option"><input type="radio" name="gender" value="स्त्री"> स्त्री</label>
-          <label class="radio-option"><input type="radio" name="gender" value="इतर"> इतर</label>
+  <!-- 5 Module Cards -->
+  <div style="font-size:12px;color:#888;font-weight:600;letter-spacing:0.4px;margin-bottom:6px">मुख्य विभाग</div>
+  <div class="home-modules">
+    <div class="module-card" onclick="goPageBtn('don')">
+      <div class="module-icon" style="background:#1d9e75">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div class="mod-title">स्वेच्छानिधी नोंदणी</div>
+      <div class="mod-sub" id="mod-don-count">0 नोंदी</div>
+    </div>
+    <div class="module-card" onclick="goPageBtn('exp')">
+      <div class="module-icon" style="background:#e24b4a">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="mod-title">खर्च व्यवस्थापन</div>
+      <div class="mod-sub" id="mod-exp-count">0 नोंदी</div>
+    </div>
+    <div class="module-card" onclick="goPageBtn('seva')">
+      <div class="module-icon" style="background:#534ab7">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="mod-title">सेवा व्यवस्थापन</div>
+      <div class="mod-sub" id="mod-seva-count">0 सेवा</div>
+    </div>
+    <div class="module-card" onclick="goPageBtn('dash')">
+      <div class="module-icon" style="background:#185fa5">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="mod-title">आर्थिक डॅशबोर्ड</div>
+      <div class="mod-sub">Charts & आलेख</div>
+    </div>
+    <div class="module-card" onclick="goPageBtn('users')" style="grid-column:1/-1">
+      <div style="display:flex;align-items:center;gap:12px;width:100%">
+        <div class="module-icon" style="background:#854f0b">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <div class="mod-title">User Master Sheet</div>
+          <div class="mod-sub" id="mod-user-count">0 सदस्य नोंदलेले</div>
         </div>
       </div>
-
-      <div class="field">
-        <label>जन्मतारीख (DOB) <span class="req">*</span></label>
-        <input type="date" id="dob" onchange="calculateAge()">
-      </div>
-
-      <div class="field">
-        <label>वय (Auto Calculate)</label>
-        <div class="age-display" id="ageDisplay">—</div>
+    </div>
+    <div id="admin-log-card" class="module-card" onclick="showLoginLogs()" style="grid-column:1/-1;background:#eeedfe;border-color:#c0bdf5;display:none">
+      <div style="display:flex;align-items:center;gap:12px;width:100%">
+        <div class="module-icon" style="background:#534ab7">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="mod-title" style="color:#534ab7">🔐 Login Security Log</div>
+          <div class="mod-sub">कोण, केव्हा, कुठून login केले</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Contact Details -->
   <div class="card">
-    <div class="card-title">📞 संपर्क माहिती</div>
-    <div class="form-grid">
-      <div class="field">
-        <label>WhatsApp नंबर <span class="req">*</span></label>
-        <input type="tel" id="whatsapp" placeholder="9XXXXXXXXX" maxlength="10">
-      </div>
-
-      <div class="field">
-        <label>Calling नंबर</label>
-        <input type="tel" id="calling" placeholder="9XXXXXXXXX" maxlength="10">
-      </div>
-
-      <div class="field full-width">
-        <label>Email ID</label>
-        <input type="email" id="memberEmail" placeholder="member@email.com">
-      </div>
-
-      <div class="field full-width">
-        <label>राहण्याचा पत्ता <span class="req">*</span></label>
-        <textarea id="address" rows="3" placeholder="गाव, तालुका, जिल्हा..."></textarea>
-      </div>
-    </div>
+    <div class="card-title">अलीकडील स्वेच्छानिधी</div>
+    <div id="home-recent-don"><div class="empty">अजून नोंद नाही</div></div>
   </div>
-
-  <!-- Amboli Kendra Details -->
   <div class="card">
-    <div class="card-title">🌿 अंबोली केंद्र माहिती</div>
-    <div class="form-grid">
-      <div class="field full-width">
-        <label>बापू कडे कधीपासून येता? <span class="req">*</span></label>
-        <input type="text" id="sinceWhen" placeholder="उदा: 2 वर्षांपासून / 2022 पासून">
-      </div>
-
-      <div class="field">
-        <label>Job / Business <span class="req">*</span></label>
-        <input type="text" id="jobBusiness" placeholder="उदा: शेती, व्यापार, नोकरी">
-      </div>
-
-      <div class="field">
-        <label>क्षेत्र (Field) <span class="req">*</span></label>
-        <select id="field">
-          <option value="">निवडा...</option>
-          <option>शेती / Agriculture</option>
-          <option>व्यापार / Business</option>
-          <option>सरकारी नोकरी</option>
-          <option>खाजगी नोकरी</option>
-          <option>शिक्षण / Education</option>
-          <option>आरोग्य / Health</option>
-          <option>तंत्रज्ञान / Technology</option>
-          <option>इतर / Other</option>
-        </select>
-      </div>
-    </div>
+    <div class="card-title">आगामी सेवा नोंदी</div>
+    <div id="home-upcoming-seva"><div class="empty">अजून नोंद नाही</div></div>
   </div>
-
-  <button class="submit-btn" onclick="submitForm()">
-    ✅ नोंदणी सादर करा
-  </button>
-
-  <div class="success-msg" id="successMsg">
-    🎉 नोंदणी यशस्वी झाली! माहिती email वर पाठवली गेली.
-  </div>
-
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- DONATIONS -->
+<div class="page" id="page-don">
+  <div style="padding-top:13px">
+    <div class="sec-head">
+      <h2>स्वेच्छानिधी नोंदणी</h2>
+      <button onclick="openModal('modal-add-don')">+ नवीन</button>
+    </div>
+    <div id="don-list"><div class="empty">अजून स्वेच्छानिधी नोंद नाही</div></div>
+  </div>
+</div>
+
+<!-- EXPENSES -->
+<div class="page" id="page-exp">
+  <div style="padding-top:13px">
+    <div class="sec-head">
+      <h2>खर्च व्यवस्थापन</h2>
+      <button onclick="openModal('modal-add-exp')">+ नवीन</button>
+    </div>
+    <div id="exp-list"><div class="empty">अजून खर्च नाही</div></div>
+  </div>
+</div>
+
+<!-- SEVA -->
+<div class="page" id="page-seva">
+  <div style="padding-top:13px">
+    <div class="tabs" id="seva-main-tabs">
+      <div class="tab active" onclick="sevaTab('list',this)">सेवा Master</div>
+      <div class="tab" onclick="sevaTab('assign',this)">सेवा नोंद</div>
+      <div class="tab" onclick="sevaTab('records',this)">नोंदी & Report</div>
+    </div>
+
+    <!-- TAB 1: SEVA MASTER -->
+    <div id="seva-tab-list">
+      <div class="sec-head">
+        <h2>सेवा Master</h2>
+        <button onclick="openModal('modal-add-seva-type')">+ नवीन सेवा</button>
+      </div>
+      <div id="seva-types-list"><div class="empty">अजून सेवा नाही</div></div>
+    </div>
+
+    <!-- TAB 2: SEVA NOND -->
+    <div id="seva-tab-assign" style="display:none">
+      <div class="card">
+        <div class="card-title">श्रद्धावान सेवा नोंद करा</div>
+        <label>मोबाइल नंबर *</label>
+        <input type="tel" id="seva-mobile" placeholder="10 अंकी नंबर" oninput="lookupUser('seva')" maxlength="10">
+        <div id="seva-user-info" style="margin-top:5px;font-size:13px;min-height:18px;font-weight:600"></div>
+        <label>पूर्ण नाव (auto)</label>
+        <input type="text" id="seva-name" placeholder="mobile टाकल्यावर auto येईल" readonly style="background:#f9f5f0">
+        <div class="row2">
+          <div>
+            <label>वय (auto)</label>
+            <input type="text" id="seva-age" placeholder="auto" readonly style="background:#f9f5f0">
+          </div>
+          <div>
+            <label>सेवा तारीख *</label>
+            <input type="date" id="seva-date">
+          </div>
+        </div>
+        <label>सेवा निवडा *</label>
+        <select id="seva-select"><option value="">-- सेवा निवडा --</option></select>
+        <div id="seva-select-info" style="font-size:12px;color:#534ab7;margin-top:5px;min-height:16px"></div>
+        <button class="btn btn-primary" onclick="saveSeva()">✓ सेवा नोंद करा</button>
+      </div>
+    </div>
+
+    <!-- TAB 3: RECORDS & REPORT -->
+    <div id="seva-tab-records" style="display:none">
+      <div class="tabs" id="seva-report-tabs" style="margin-bottom:10px">
+        <div class="tab active" onclick="sevaReportTab('by-seva',this)" style="font-size:11px">सेवानिहाय</div>
+        <div class="tab" onclick="sevaReportTab('by-person',this)" style="font-size:11px">श्रद्धावाननिहाय</div>
+        <div class="tab" onclick="sevaReportTab('all',this)" style="font-size:11px">सर्व नोंदी</div>
+      </div>
+      <div id="seva-report-by-seva"></div>
+      <div id="seva-report-by-person" style="display:none"></div>
+      <div id="seva-report-all" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FINANCIAL DASHBOARD -->
+<div class="page" id="page-dash">
+  <div style="padding-top:13px">
+    <h2 style="font-size:15px;font-weight:600;margin-bottom:14px">आर्थिक डॅशबोर्ड</h2>
+
+    <div class="stat-row">
+      <div class="stat-box green">
+        <div class="num" id="dash-total-don">₹0</div>
+        <div class="lbl">एकूण स्वेच्छानिधी</div>
+      </div>
+      <div class="stat-box red">
+        <div class="num" id="dash-total-exp">₹0</div>
+        <div class="lbl">एकूण खर्च</div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box blue">
+        <div class="num" id="dash-net">₹0</div>
+        <div class="lbl">निव्वळ शिल्लक</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="dash-don-count">0</div>
+        <div class="lbl">स्वेच्छानिधी नोंदी</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">मासिक स्वेच्छानिधी vs खर्च (Bar Chart)</div>
+      <div class="chart-wrap" style="height:200px">
+        <canvas id="chart-monthly"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">स्वेच्छानिधी प्रकार (Pie Chart)</div>
+      <div class="chart-wrap" style="height:200px">
+        <canvas id="chart-don-type"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">खर्च श्रेणी</div>
+      <div id="dash-exp-breakdown"></div>
+    </div>
+  </div>
+</div>
+
+<!-- INVENTORY -->
+<div class="page" id="page-inv">
+  <div style="padding-top:13px">
+    <div class="sec-head">
+      <h2>सामान (Inventory)</h2>
+      <button onclick="openModal('modal-add-inv')">+ नवीन</button>
+    </div>
+    <div id="inv-list"><div class="empty">अजून सामान नाही</div></div>
+  </div>
+</div>
+
+<!-- USERS -->
+<div class="page" id="page-users">
+  <div style="padding-top:13px">
+    <div class="tabs">
+      <div class="tab active" onclick="userTab('list',this)">यादी</div>
+      <div class="tab" onclick="userTab('add',this)">नोंदणी</div>
+    </div>
+    <div id="user-tab-list">
+      <div id="users-list"><div class="empty">अजून सदस्य नाही</div></div>
+    </div>
+    <div id="user-tab-add" style="display:none">
+      <div class="card">
+        <div class="card-title">नवीन सदस्य नोंदणी</div>
+        <label>मोबाइल नंबर *</label>
+        <input type="tel" id="user-mobile" placeholder="10 अंकी" maxlength="10" oninput="lookupUser('user')">
+        <div id="user-user-info" style="font-size:12px;margin-top:4px;min-height:16px"></div>
+        <label>पहिले नाव *</label>
+        <input type="text" id="user-fname" placeholder="पहिले नाव">
+        <div class="row2">
+          <div><label>मधले नाव</label><input type="text" id="user-mname" placeholder="मधले नाव"></div>
+          <div><label>आडनाव *</label><input type="text" id="user-lname" placeholder="आडनाव"></div>
+        </div>
+        <div class="row2">
+          <div><label>जन्मतारीख</label><input type="date" id="user-dob"></div>
+          <div><label>लिंग</label>
+            <select id="user-gender"><option>पुरुष</option><option>महिला</option><option>इतर</option></select>
+          </div>
+        </div>
+        <label>भूमिका (Role)</label>
+        <select id="user-role">
+          <option value="member">सदस्य (Member)</option>
+          <option value="volunteer">स्वयंसेवक (Volunteer)</option>
+          <option value="admin">प्रशासक (Admin)</option>
+        </select>
+        <label>Email ID (ऐच्छिक)</label>
+        <input type="email" id="user-email" placeholder="example@gmail.com">
+        <label>पत्ता (ऐच्छिक)</label>
+        <textarea id="user-addr" rows="2" placeholder="पत्ता..."></textarea>
+        <button class="btn btn-primary" onclick="saveUser()">सदस्य नोंद करा</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="modal-overlay" id="modal-existing-user">
+  <div class="modal">
+    <div class="modal-head"><h3>⚠️ सदस्य आधीच नोंदला आहे</h3><button class="modal-close" onclick="closeModal('modal-existing-user')">✕</button></div>
+    <div style="font-size:13px;color:#854f0b;background:#fff3da;border-radius:8px;padding:9px 12px;margin-bottom:10px">हा मोबाइल नंबर आधीच नोंदणीत आहे. खालील माहिती पाहा:</div>
+    <div id="existing-user-info" style="background:#f0f9f4;border-radius:10px;padding:14px;margin-bottom:4px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+      <button class="btn" style="background:#e6f1fb;color:#185fa5;border:none;margin-top:0" onclick="editExistingUser()">✏️ Edit करा</button>
+      <button class="btn" style="background:#fce8e8;color:#a32d2d;border:none;margin-top:0" onclick="deleteExistingUser()">🗑 Delete करा</button>
+    </div>
+    <button class="btn" style="background:#f5f0e8;color:#555;border:none;margin-top:10px" onclick="closeModal('modal-existing-user')">बंद करा</button>
+  </div>
+</div>
+
+<!-- EDIT USER MODAL -->
+<div class="modal-overlay" id="modal-edit-user">
+  <div class="modal">
+    <div class="modal-head"><h3>सदस्य माहिती बदला</h3><button class="modal-close" onclick="closeModal('modal-edit-user')">✕</button></div>
+    <input type="hidden" id="edit-user-id">
+    <label>मोबाइल नंबर</label>
+    <input type="tel" id="edit-user-mobile" placeholder="10 अंकी" maxlength="10">
+    <label>पहिले नाव *</label>
+    <input type="text" id="edit-user-fname" placeholder="पहिले नाव">
+    <div class="row2">
+      <div><label>मधले नाव</label><input type="text" id="edit-user-mname" placeholder="मधले नाव"></div>
+      <div><label>आडनाव *</label><input type="text" id="edit-user-lname" placeholder="आडनाव"></div>
+    </div>
+    <div class="row2">
+      <div><label>जन्मतारीख</label><input type="date" id="edit-user-dob"></div>
+      <div><label>लिंग</label>
+        <select id="edit-user-gender"><option>पुरुष</option><option>महिला</option><option>इतर</option></select>
+      </div>
+    </div>
+    <label>भूमिका</label>
+    <select id="edit-user-role">
+      <option value="member">सदस्य</option>
+      <option value="volunteer">स्वयंसेवक</option>
+      <option value="admin">प्रशासक</option>
+    </select>
+    <label>Email ID</label>
+    <input type="email" id="edit-user-email" placeholder="example@gmail.com">
+    <label>पत्ता</label>
+    <textarea id="edit-user-addr" rows="2" placeholder="पत्ता..."></textarea>
+    <button class="btn btn-primary" onclick="updateUser()">बदल सेव्ह करा</button>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-overlay" id="modal-delete-confirm">
+  <div class="modal">
+    <div class="modal-head"><h3 style="color:#a32d2d">⚠️ Delete करायचे का?</h3><button class="modal-close" onclick="closeModal('modal-delete-confirm')">✕</button></div>
+    <p id="delete-confirm-msg" style="font-size:14px;color:#555;line-height:1.6;margin-bottom:6px"></p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+      <button class="btn" style="background:#fce8e8;color:#a32d2d;border:none;margin-top:0;font-weight:700" onclick="confirmDelete()">हो, Delete करा</button>
+      <button class="btn" style="background:#f5f0e8;color:#555;border:none;margin-top:0" onclick="closeModal('modal-delete-confirm')">नाही, रद्द करा</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="goPage('home',this)">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    मुख्य
+  </button>
+  <button class="nav-btn" onclick="goPage('don',this)">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    स्वेच्छानिधी
+  </button>
+  <button class="nav-btn" onclick="goPage('exp',this)">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+    खर्च
+  </button>
+  <button class="nav-btn" onclick="goPage('seva',this)">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    सेवा
+  </button>
+  <button class="nav-btn" onclick="goPage('dash',this)">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    डॅशबोर्ड
+  </button>
+  <button class="nav-btn" onclick="goPage('inv',this)">
+    <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+    सामान
+  </button>
+  <button class="nav-btn" onclick="goPage('users',this)">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    सदस्य
+  </button>
+</div>
+
+<!-- MODALS -->
+
+<!-- ADD DONATION -->
+<div class="modal-overlay" id="modal-add-don">
+  <div class="modal">
+    <div class="modal-head"><h3>स्वेच्छानिधी नोंद करा</h3><button class="modal-close" onclick="closeModal('modal-add-don')">✕</button></div>
+    <label>मोबाइल नंबर</label>
+    <input type="tel" id="don-mobile" placeholder="10 अंकी नंबर" oninput="lookupUser('don')" maxlength="10">
+    <div id="don-user-info" style="margin-top:7px;font-size:13px;min-height:18px"></div>
+    <label>पहिले नाव <span id="don-name-hint" style="font-size:11px;color:#888">(mobile टाकल्यावर auto येईल)</span></label>
+    <input type="text" id="don-fname" placeholder="पहिले नाव">
+    <div class="row2">
+      <div><label>मधले नाव</label><input type="text" id="don-mname" placeholder="मधले नाव"></div>
+      <div><label>आडनाव</label><input type="text" id="don-lname" placeholder="आडनाव"></div>
+    </div>
+    <div class="row2">
+      <div><label>रक्कम (₹)</label><input type="number" id="don-amt" placeholder="0.00"></div>
+      <div><label>तारीख</label><input type="date" id="don-date"></div>
+    </div>
+    <label>प्रकार</label>
+    <select id="don-type"><option>रोख</option><option>UPI</option><option>चेक</option><option>इतर</option></select>
+    <label>नोंद (ऐच्छिक)</label>
+    <textarea id="don-note" rows="2" placeholder="कोणत्या प्रसंगी, इ."></textarea>
+    <button class="btn btn-primary" onclick="saveDonation()">स्वेच्छानिधी सेव्ह करा</button>
+  </div>
+</div>
+
+<!-- ADD EXPENSE -->
+<div class="modal-overlay" id="modal-add-exp">
+  <div class="modal">
+    <div class="modal-head"><h3>खर्च नोंद करा</h3><button class="modal-close" onclick="closeModal('modal-add-exp')">✕</button></div>
+    <label>उद्देश / कारण</label>
+    <input type="text" id="exp-purpose" placeholder="जसे: फुले, दिवे, प्रसाद...">
+    <label>काय आणले</label>
+    <input type="text" id="exp-item" placeholder="वस्तूचे नाव">
+    <div class="row2">
+      <div><label>कोणी आणले</label><input type="text" id="exp-by" placeholder="नाव"></div>
+      <div><label>किंमत (₹)</label><input type="number" id="exp-price" placeholder="0.00"></div>
+    </div>
+    <div class="row2">
+      <div><label>प्रमाण / नग</label><input type="text" id="exp-qty" placeholder="2 kg, 5 नग"></div>
+      <div><label>तारीख</label><input type="date" id="exp-date"></div>
+    </div>
+    <label>श्रेणी</label>
+    <select id="exp-cat"><option>पूजा साहित्य</option><option>प्रसाद</option><option>देखभाल</option><option>उत्सव</option><option>इतर</option></select>
+    <label>पावती / नोंद (ऐच्छिक)</label>
+    <textarea id="exp-note" rows="2" placeholder="अतिरिक्त माहिती..."></textarea>
+    <button class="btn btn-primary" onclick="saveExpense()">खर्च सेव्ह करा</button>
+  </div>
+</div>
+
+<!-- ADD SEVA TYPE -->
+<div class="modal-overlay" id="modal-add-seva-type">
+  <div class="modal">
+    <div class="modal-head"><h3>नवीन सेवा जोडा</h3><button class="modal-close" onclick="closeModal('modal-add-seva-type')">✕</button></div>
+    <label>सेवेचे नाव *</label>
+    <input type="text" id="seva-type-name" placeholder="जसे: Seed Balls Packing, आरती सेवा...">
+    <label>Location *</label>
+    <input type="text" id="seva-type-location" placeholder="जसे: Andheri, Dadar, Online...">
+    <div class="row2">
+      <div><label>सेवा तारीख</label><input type="date" id="seva-type-date"></div>
+      <div><label>वारंवारिता</label>
+        <select id="seva-type-freq"><option>एकवेळ</option><option>साप्ताहिक</option><option>मासिक</option><option>वार्षिक</option><option>दैनिक</option></select>
+      </div>
+    </div>
+    <div class="row2">
+      <div><label>आवश्यक Volunteers *</label><input type="number" id="seva-type-needed" placeholder="20" min="1"></div>
+      <div><label>दक्षिणा (₹)</label><input type="number" id="seva-type-fee" placeholder="0"></div>
+    </div>
+    <label>नोंद (ऐच्छिक)</label>
+    <textarea id="seva-type-note" rows="2" placeholder="सेवेबद्दल अधिक माहिती..."></textarea>
+    <button class="btn btn-primary" onclick="saveSevaType()">सेवा सेव्ह करा</button>
+  </div>
+</div>
+
+<!-- ADD INVENTORY -->
+<div class="modal-overlay" id="modal-add-inv">
+  <div class="modal">
+    <div class="modal-head"><h3>सामान जोडा</h3><button class="modal-close" onclick="closeModal('modal-add-inv')">✕</button></div>
+    <label>वस्तूचे नाव</label>
+    <input type="text" id="inv-name" placeholder="जसे: तूप, कापूर, फुले...">
+    <div class="row2">
+      <div><label>सध्याचा साठा</label><input type="number" id="inv-qty" placeholder="प्रमाण"></div>
+      <div><label>एकक</label><input type="text" id="inv-unit" placeholder="kg / नग / L"></div>
+    </div>
+    <label>कमी साठा threshold</label>
+    <input type="number" id="inv-thresh" placeholder="2 पेक्षा कमी झाले की सूचना">
+    <label>श्रेणी</label>
+    <select id="inv-cat"><option>पूजा साहित्य</option><option>खाद्यपदार्थ</option><option>देखभाल</option><option>इतर</option></select>
+    <button class="btn btn-primary" onclick="saveInventory()">सामान सेव्ह करा</button>
+  </div>
+</div>
+
+<!-- EDIT INVENTORY -->
+<div class="modal-overlay" id="modal-edit-inv">
+  <div class="modal">
+    <div class="modal-head"><h3>साठा अपडेट करा</h3><button class="modal-close" onclick="closeModal('modal-edit-inv')">✕</button></div>
+    <input type="hidden" id="edit-inv-id">
+    <label>वस्तू</label>
+    <input type="text" id="edit-inv-name" readonly style="background:#f9f5f0">
+    <div class="row2">
+      <div><label>नवीन साठा</label><input type="number" id="edit-inv-qty"></div>
+      <div><label>एकक</label><input type="text" id="edit-inv-unit" readonly style="background:#f9f5f0"></div>
+    </div>
+    <label>threshold</label>
+    <input type="number" id="edit-inv-thresh">
+    <button class="btn btn-primary" onclick="updateInventory()">साठा अपडेट करा</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
-function calculateAge() {
-  const dob = document.getElementById('dob').value;
-  if (!dob) return;
-  const today = new Date();
-  const birth = new Date(dob);
-  let years = today.getFullYear() - birth.getFullYear();
-  let months = today.getMonth() - birth.getMonth();
-  if (months < 0 || (months === 0 && today.getDate() < birth.getDate())) {
-    years--;
-    months = months < 0 ? 12 + months : months;
+// ===================== CONFIG =====================
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyot5yE9Pyn6hslqn_z-41ThZaiO8YSuuBvCz2gPPw0QkD_U9RTnxjeRauA5rT-BPTPhg/exec";
+
+// ===================== DATA — LocalStorage + Sheets Sync =====================
+const DB = {
+  get(k)    { try { return JSON.parse(localStorage.getItem(k)) || []; } catch(e){ return []; } },
+  set(k,v)  { localStorage.setItem(k, JSON.stringify(v)); },
+  users()       { return this.get('users'); },
+  donations()   { return this.get('donations'); },
+  expenses()    { return this.get('expenses'); },
+  sevaTypes()   { return this.get('sevaTypes'); },
+  sevaRecords() { return this.get('sevaRecords'); },
+  inventory()   { return this.get('inventory'); }
+};
+
+const SHEET_KEY = {
+  users:'users', donations:'donations', expenses:'expenses',
+  sevaTypes:'sevaTypes', sevaRecords:'seva', inventory:'inventory'
+};
+
+function showSyncStatus(msg, color) {
+  let el = document.getElementById('sync-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = color || '#888';
+}
+
+async function sheetUpsert(localKey, record) {
+  const key = SHEET_KEY[localKey];
+  if (!key) return;
+  try {
+    showSyncStatus('⏳ Sheets ला पाठवत आहे...', '#854f0b');
+    // no-cors means we can't read response, but POST still reaches Apps Script
+    fetch(WEB_APP_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'upsert', key, record })
+    });
+    // Wait 2s then sync back to confirm Sheets received it
+    setTimeout(async () => {
+      try {
+        const res = await fetch(WEB_APP_URL + '?action=read&key=' + key, { cache: 'no-store' });
+        const json = await res.json();
+        if (json.status === 'success' && json.data) {
+          DB.set(localKey, json.data);
+        }
+        showSyncStatus('✅ Sheets मध्ये save झाले', '#1d9e75');
+        setTimeout(() => showSyncStatus('', ''), 3000);
+      } catch(e2) {
+        showSyncStatus('✅ Local save झाले (offline sync नंतर)', '#854f0b');
+        setTimeout(() => showSyncStatus('', ''), 3000);
+      }
+    }, 2000);
+  } catch(e) {
+    showSyncStatus('⚠️ Offline — local save झाले', '#a32d2d');
   }
-  if (today.getDate() < birth.getDate()) months = (months - 1 + 12) % 12;
-  document.getElementById('ageDisplay').textContent = `${years} वर्षे ${months} महिने`;
 }
 
-function getGender() {
-  const sel = document.querySelector('input[name="gender"]:checked');
-  return sel ? sel.value : '';
+async function sheetDelete(localKey, id) {
+  const key = SHEET_KEY[localKey];
+  if (!key) return;
+  try {
+    await fetch(WEB_APP_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'delete', key, id })
+    });
+  } catch(e) { console.warn('Sheet delete failed (offline)'); }
 }
 
-function submitForm() {
-  const required = ['fullName', 'dob', 'whatsapp', 'address', 'sinceWhen', 'jobBusiness'];
-  for (const id of required) {
-    if (!document.getElementById(id).value.trim()) {
-      alert('कृपया सर्व * fields भरा!');
-      document.getElementById(id).focus();
-      return;
+async function syncFromSheets() {
+  showSyncStatus('⏳ Data load होत आहे...', '#854f0b');
+  try {
+    const res = await fetch(WEB_APP_URL + '?action=readAll', { cache: 'no-store' });
+    const json = await res.json();
+    if (json.status === 'success' && json.data) {
+      const keyMap = { users:'users', donations:'donations', expenses:'expenses', sevaTypes:'sevaTypes', seva:'sevaRecords', inventory:'inventory' };
+      Object.entries(keyMap).forEach(([sheetKey, localKey]) => {
+        if (json.data[sheetKey] === undefined) return;
+        // Convert all fields to string to avoid type mismatch from Sheets
+        const sheetData = json.data[sheetKey].map(function(row) {
+          var fixed = {};
+          Object.keys(row).forEach(function(k) {
+            fixed[k] = (row[k] === null || row[k] === undefined) ? '' : String(row[k]);
+          });
+          return fixed;
+        });
+        const localData = DB.get(localKey);
+        // MERGE: local records take priority
+        const merged = [...sheetData];
+        localData.forEach(localRec => {
+          if (!localRec.id) return;
+          const exists = merged.findIndex(r => String(r.id) === String(localRec.id));
+          if (exists >= 0) {
+            merged[exists] = localRec;
+          } else {
+            merged.unshift(localRec);
+          }
+        });
+        DB.set(localKey, merged);
+      });
+      showSyncStatus('✅ Synced', '#1d9e75');
+      setTimeout(() => showSyncStatus('', ''), 2500);
+      const activePage = document.querySelector('.page.active');
+      if (activePage) renderPage(activePage.id.replace('page-',''));
     }
+  } catch(e) {
+    showSyncStatus('⚠️ Offline — local data दाखवत आहे', '#a32d2d');
   }
-  if (!getGender()) { alert('कृपया लिंग निवडा!'); return; }
+}
 
-  const serviceId = document.getElementById('serviceId').value.trim();
-  const templateId = document.getElementById('templateId').value.trim();
-  const publicKey = document.getElementById('publicKey').value.trim();
-  const adminEmail = document.getElementById('adminEmail').value.trim();
+// ===================== UTILS =====================
+function today() { return new Date().toISOString().split('T')[0]; }
+function fmt(d) { if(!d) return ''; const [y,m,dy] = d.split('-'); return `${dy}/${m}/${y}`; }
+function fmtAmt(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function thisMonth() { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`; }
 
-  const data = {
-    to_email: adminEmail,
-    full_name: document.getElementById('fullName').value,
-    gender: getGender(),
-    dob: document.getElementById('dob').value,
-    age: document.getElementById('ageDisplay').textContent,
-    whatsapp: document.getElementById('whatsapp').value,
-    calling: document.getElementById('calling').value || 'नाही',
-    member_email: document.getElementById('memberEmail').value || 'नाही',
-    address: document.getElementById('address').value,
-    since_when: document.getElementById('sinceWhen').value,
-    job_business: document.getElementById('jobBusiness').value,
-    field: document.getElementById('field').value || 'नाही',
-    submitted_at: new Date().toLocaleString('mr-IN')
-  };
+function calcAge(dob) {
+  if(!dob) return '';
+  const t = new Date(), b = new Date(dob);
+  let age = t.getFullYear() - b.getFullYear();
+  const m = t.getMonth() - b.getMonth();
+  if(m < 0 || (m===0 && t.getDate() < b.getDate())) age--;
+  return age >= 0 ? age : '';
+}
 
-  if (!serviceId || !templateId || !publicKey) {
-    // Show data in alert if EmailJS not configured
-    const msg = Object.entries(data).map(([k,v]) => `${k}: ${v}`).join('\n');
-    alert('⚠️ EmailJS setup नाही.\n\nडेटा:\n' + msg);
+// ===================== NAV =====================
+let monthlyChart = null, donTypeChart = null;
+
+function goPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  renderPage(id);
+}
+
+function goPageBtn(id) {
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const pageMap = {home:0,don:1,exp:2,seva:3,dash:4,inv:5,users:6};
+  goPage(id, navBtns[pageMap[id]||0]);
+}
+
+function renderPage(id) {
+  if(id==='home') renderHome();
+  if(id==='don') renderDonations();
+  if(id==='exp') renderExpenses();
+  if(id==='seva') renderSeva();
+  if(id==='dash') renderDashboard();
+  if(id==='inv') renderInventory();
+  if(id==='users') renderUsers();
+}
+
+// ===================== MODALS =====================
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  if(id==='modal-add-don') {
+    document.getElementById('don-date').value = today();
+    ['don-mobile','don-fname','don-mname','don-lname','don-amt','don-note'].forEach(f=>document.getElementById(f).value='');
+    document.getElementById('don-user-info').textContent='';
+  }
+  if(id==='modal-add-exp') document.getElementById('exp-date').value = today();
+  if(id==='modal-add-seva-type') { document.getElementById('seva-type-name').value=''; document.getElementById('seva-type-needed').value=''; document.getElementById('seva-type-fee').value=''; }
+  if(id==='modal-add-inv') { ['inv-name','inv-qty','inv-thresh','inv-unit'].forEach(f=>document.getElementById(f).value=''); }
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); }));
+
+// ===================== USER LOOKUP =====================
+function findUserByMobile(mobile) {
+  const m = String(mobile).replace(/\D/g,'');
+  if(!m || m.length < 10) return null;
+  return DB.users().find(u => {
+    const um = String(u.mobile||'').replace(/\D/g,'');
+    if(!um) return false;
+    return um===m || um==='91'+m || '91'+um===m || um.slice(-10)===m.slice(-10);
+  });
+}
+
+function lookupUser(ctx) {
+  const mobile = String(document.getElementById(ctx+'-mobile').value).replace(/\D/g,'').trim();
+  const infoEl = document.getElementById(ctx+'-user-info');
+  if(!infoEl) return; // safety check
+  if(mobile.length < 10) { infoEl.textContent=''; infoEl.style.color='#888'; return; }
+
+  // User registration page — show popup if already exists, else allow new entry
+  if(ctx==='user') {
+    const user = findUserByMobile(mobile);
+    if(user) {
+      currentExistingUserId = user.id;
+      const roleLabel={admin:'प्रशासक',volunteer:'स्वयंसेवक',member:'सदस्य'};
+      document.getElementById('existing-user-info').innerHTML =
+        '<div style="font-weight:600;font-size:15px;margin-bottom:6px">'+[user.fname,user.mname,user.lname].filter(Boolean).join(' ')+'</div>'+
+        '<div style="font-size:13px;color:#555">📱 '+user.mobile+'</div>'+
+        (user.dob?'<div style="font-size:13px;color:#555">🎂 जन्म: '+fmt(user.dob)+' · वय '+calcAge(user.dob)+'</div>':'')+
+        (user.gender?'<div style="font-size:13px;color:#555">👤 '+user.gender+'</div>':'')+
+        '<div style="font-size:13px;color:#555">भूमिका: '+(roleLabel[user.role]||'सदस्य')+'</div>'+
+        (user.email?'<div style="font-size:13px;color:#555">✉️ '+user.email+'</div>':'')+
+        (user.addr?'<div style="font-size:13px;color:#555;margin-top:4px">🏠 '+user.addr+'</div>':'')+
+        '<div style="font-size:11px;color:#aaa;margin-top:6px">नोंदणी: '+(user.createdAt?fmt(user.createdAt):'—')+'</div>';
+      infoEl.textContent='⚠️ हा नंबर आधीच नोंदला आहे';
+      infoEl.style.color='#a32d2d';
+      infoEl.style.fontWeight='600';
+      openModal('modal-existing-user');
+      // clear name fields to prevent accidental duplicate save
+      ['user-fname','user-mname','user-lname','user-dob','user-addr','user-email'].forEach(f=>{
+        const el=document.getElementById(f); if(el) el.value='';
+      });
+    } else {
+      infoEl.textContent='✓ नवीन सदस्य — खालील माहिती भरा';
+      infoEl.style.color='#1d9e75';
+      infoEl.style.fontWeight='600';
+    }
     return;
   }
 
-  emailjs.init(publicKey);
-  const btn = document.querySelector('.submit-btn');
-  btn.textContent = '⏳ पाठवत आहे...';
-  btn.disabled = true;
-
-  emailjs.send(serviceId, templateId, data)
-    .then(() => {
-      document.getElementById('successMsg').style.display = 'block';
-      btn.textContent = '✅ पाठवले!';
-      document.querySelector('form') && document.querySelector('form').reset();
-    })
-    .catch((err) => {
-      alert('Error: ' + JSON.stringify(err) + '\nEmailJS settings तपासा.');
-      btn.textContent = '✅ नोंदणी सादर करा';
-      btn.disabled = false;
-    });
+  const user = findUserByMobile(mobile);
+  if(user) {
+    const fullName = [user.fname,user.mname,user.lname].filter(Boolean).join(' ');
+    infoEl.textContent = '✓ ' + fullName + ' (सदस्य सापडला)';
+    infoEl.style.color = '#1d9e75';
+    if(ctx==='don') {
+      document.getElementById('don-fname').value=user.fname;
+      document.getElementById('don-mname').value=user.mname||'';
+      document.getElementById('don-lname').value=user.lname||'';
+      const hint = document.getElementById('don-name-hint');
+      if(hint) hint.textContent = '(✓ auto भरले)';
+    }
+    if(ctx==='seva') {
+      document.getElementById('seva-name').value=fullName;
+      document.getElementById('seva-age').value=user.dob ? calcAge(user.dob) : '';
+    }
+  } else {
+    infoEl.textContent='⚠ सदस्य सापडला नाही – नाव manually भरा';
+    infoEl.style.color='#854f0b';
+    if(ctx==='don') {
+      ['don-fname','don-mname','don-lname'].forEach(f=>document.getElementById(f).value='');
+      const hint = document.getElementById('don-name-hint');
+      if(hint) hint.textContent = '(नवीन व्यक्ती)';
+    }
+    if(ctx==='seva') { document.getElementById('seva-name').value=''; document.getElementById('seva-age').value=''; }
+  }
 }
+
+// ===================== DONATIONS =====================
+function saveDonation() {
+  const fname=document.getElementById('don-fname').value.trim();
+  const amt=document.getElementById('don-amt').value;
+  const date=document.getElementById('don-date').value;
+  const mobile=document.getElementById('don-mobile').value.trim();
+  if(!fname||!amt||!date) { alert('नाव, रक्कम आणि तारीख आवश्यक'); return; }
+  const mname=document.getElementById('don-mname').value.trim();
+  const lname=document.getElementById('don-lname').value.trim();
+  const fullName=[fname,mname,lname].filter(Boolean).join(' ');
+  const donType=document.getElementById('don-type').value;
+  const d = DB.donations();
+  d.unshift({ id:uid(), mobile, fname, mname, lname, amt:parseFloat(amt), date, type:donType, note:document.getElementById('don-note').value.trim() });
+  DB.set('donations',d);
+  sheetUpsert('donations', d[0]);
+  closeModal('modal-add-don');
+  renderDonations(); renderHome();
+
+  if(mobile && mobile.length===10) {
+    const fmtDate = fmt(date);
+    const msg = `हरि ॐ\n\n🙏 *Amboli Aniruddha Upasana App*\n\nनमस्कार ${fullName} जी,\n\nआपल्या स्वेच्छानिधीबद्दल मनःपूर्वक आभार! 🙏\n\n📅 तारीख: ${fmtDate}\n💰 रक्कम: ₹${Number(amt).toLocaleString('en-IN')}\n💳 प्रकार: ${donType}\n\nआपल्या सहकार्यामुळे केंद्राचे कार्य अखंड सुरू राहते.\n\nहरि ॐ श्रीराम\nअंबज्ञ नाथसंविध`;
+    const encoded = encodeURIComponent(msg);
+    const waURL = 'https://wa.me/91' + mobile + '?text=' + encoded;
+    setTimeout(() => {
+      const confirmed = confirm('✅ स्वेच्छानिधी नोंद झाली!\n\n' + fullName + ' यांना WhatsApp आभार संदेश पाठवायचा का?');
+      if(confirmed) window.open(waURL, '_blank');
+    }, 300);
+  }
+}
+
+function renderDonations() {
+  const list = DB.donations();
+  const el = document.getElementById('don-list');
+  if(!list.length) { el.innerHTML='<div class="empty">अजून स्वेच्छानिधी नोंद नाही</div>'; return; }
+  el.innerHTML = list.map(d=>{
+    const dLabel = (d.fname+' '+(d.lname||'')+' - '+fmtAmt(d.amt)).replace(/'/g,"&#39;");
+    return `<div class="list-item">
+      <div style="flex:1"><div class="name">${d.fname} ${d.mname||''} ${d.lname||''}</div>
+      <div class="sub">${d.mobile||''} · ${d.type}</div>
+      ${d.note?`<div class="sub">${d.note}</div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <div class="amount">${fmtAmt(d.amt)}</div>
+        <div class="date">${fmt(d.date)}</div>
+        <button onclick="askDelete('donation','${d.id}','${dLabel}')" style="background:#fce8e8;color:#a32d2d;border:none;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;margin-top:2px">🗑 Delete</button>
+      </div>
+    </div>`;}).join('');
+}
+
+// ===================== EXPENSES =====================
+function saveExpense() {
+  const purpose=document.getElementById('exp-purpose').value.trim();
+  const price=document.getElementById('exp-price').value;
+  const date=document.getElementById('exp-date').value;
+  if(!purpose||!price||!date) { alert('उद्देश, किंमत आणि तारीख आवश्यक'); return; }
+  const d = DB.expenses();
+  d.unshift({ id:uid(), purpose, item:document.getElementById('exp-item').value.trim(), by:document.getElementById('exp-by').value.trim(), price:parseFloat(price), qty:document.getElementById('exp-qty').value.trim(), date, cat:document.getElementById('exp-cat').value, note:document.getElementById('exp-note').value.trim() });
+  DB.set('expenses',d);
+  sheetUpsert('expenses', d[0]);
+  closeModal('modal-add-exp');
+  renderExpenses(); renderHome();
+}
+
+function renderExpenses() {
+  const list = DB.expenses();
+  const el = document.getElementById('exp-list');
+  if(!list.length) { el.innerHTML='<div class="empty">अजून खर्च नाही</div>'; return; }
+  el.innerHTML = list.map(e=>{
+    const eLabel = (e.purpose+' - '+fmtAmt(e.price)).replace(/'/g,"&#39;");
+    return `<div class="list-item">
+      <div style="flex:1"><div class="name">${e.purpose}</div>
+      <div class="sub">${e.item||''} ${e.qty?'('+e.qty+')':''}</div>
+      ${e.by?`<div class="sub">आणले: ${e.by}</div>`:''}
+      <span class="badge badge-amber" style="margin-top:3px">${e.cat||'इतर'}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <div class="amount">${fmtAmt(e.price)}</div>
+        <div class="date">${fmt(e.date)}</div>
+        <button onclick="askDelete('expense','${e.id}','${eLabel}')" style="background:#fce8e8;color:#a32d2d;border:none;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;margin-top:2px">🗑 Delete</button>
+      </div>
+    </div>`;}).join('');
+}
+
+// ===================== SEVA =====================
+function sevaTab(tab, el) {
+  // Use specific ID to avoid conflict with sub-tabs
+  document.querySelectorAll('#seva-main-tabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('seva-tab-list').style.display    = tab==='list'   ?'block':'none';
+  document.getElementById('seva-tab-assign').style.display  = tab==='assign' ?'block':'none';
+  document.getElementById('seva-tab-records').style.display = tab==='records'?'block':'none';
+  if(tab==='assign') { loadSevaSelect(); document.getElementById('seva-date').value=today(); }
+  if(tab==='records') {
+    const firstTab = document.querySelector('#seva-report-tabs .tab');
+    if(firstTab) sevaReportTab('by-seva', firstTab);
+  }
+}
+
+function sevaReportTab(tab, el) {
+  document.querySelectorAll('#seva-report-tabs .tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('seva-report-by-seva').style.display   = tab==='by-seva'  ?'block':'none';
+  document.getElementById('seva-report-by-person').style.display = tab==='by-person'?'block':'none';
+  document.getElementById('seva-report-all').style.display       = tab==='all'      ?'block':'none';
+  if(tab==='by-seva')   renderReportBySeva();
+  if(tab==='by-person') renderReportByPerson();
+  if(tab==='all')       renderAllRecords();
+}
+
+function loadSevaSelect() {
+  const sel = document.getElementById('seva-select');
+  const types = DB.sevaTypes();
+  sel.innerHTML = '<option value="">-- सेवा निवडा --</option>' +
+    types.map(t => {
+      const assigned = DB.sevaRecords().filter(r=>String(r.sevaId)===String(t.id)).length;
+      const needed = parseInt(t.needed)||0;
+      const remaining = needed > 0 ? needed - assigned : '?';
+      return `<option value="${t.id}">${t.name}${t.location?' ('+t.location+')':''} — ${assigned}/${needed} volunteers</option>`;
+    }).join('');
+}
+
+// seva-select change — show info
+document.addEventListener('change', function(e) {
+  if(e.target.id !== 'seva-select') return;
+  const sevaId = e.target.value;
+  const infoEl = document.getElementById('seva-select-info');
+  if(!sevaId) { infoEl.textContent=''; return; }
+  const t = DB.sevaTypes().find(s=>String(s.id)===String(sevaId));
+  if(!t) return;
+  const assigned = DB.sevaRecords().filter(r=>String(r.sevaId)===String(sevaId)).length;
+  const needed = parseInt(t.needed)||0;
+  const remaining = needed - assigned;
+  infoEl.innerHTML =
+    (t.location?'📍 '+t.location+'  ':'') +
+    (t.date?'📅 '+fmt(t.date)+'  ':'') +
+    '<strong style="color:'+(remaining>0?'#854f0b':'#1d9e75')+'">'+assigned+'/'+needed+' volunteers'+
+    (remaining>0?' ('+remaining+' शिल्लक)':' ✓ पूर्ण')+'</strong>';
+});
+
+function saveSevaType() {
+  const name = document.getElementById('seva-type-name').value.trim();
+  const location = document.getElementById('seva-type-location').value.trim();
+  const needed = parseInt(document.getElementById('seva-type-needed').value)||0;
+  if(!name) { alert('सेवेचे नाव आवश्यक'); return; }
+  if(!location) { alert('Location आवश्यक'); return; }
+  if(needed < 1) { alert('किमान 1 volunteer आवश्यक'); return; }
+  const newType = {
+    id: uid(), name, location,
+    date: document.getElementById('seva-type-date').value,
+    freq: document.getElementById('seva-type-freq').value,
+    needed, fee: parseFloat(document.getElementById('seva-type-fee').value)||0,
+    note: document.getElementById('seva-type-note').value.trim()
+  };
+  const d = DB.sevaTypes();
+  d.unshift(newType);
+  DB.set('sevaTypes', d);
+  sheetUpsert('sevaTypes', newType);
+  closeModal('modal-add-seva-type');
+  renderSeva();
+}
+
+function saveSeva() {
+  const mobile = document.getElementById('seva-mobile').value.trim();
+  const name   = document.getElementById('seva-name').value.trim();
+  const date   = document.getElementById('seva-date').value;
+  const sevaId = document.getElementById('seva-select').value;
+  if(!mobile || mobile.length!==10) { alert('10 अंकी मोबाइल नंबर आवश्यक'); return; }
+  if(!name)   { alert('नाव आवश्यक — mobile number टाका'); return; }
+  if(!date)   { alert('तारीख आवश्यक'); return; }
+  if(!sevaId) { alert('सेवा निवडा'); return; }
+
+  // Check duplicate — same mobile + same seva
+  const alreadyDone = DB.sevaRecords().find(r=>
+    String(r.mobile).replace(/\D/g,'').slice(-10) === mobile.slice(-10) &&
+    String(r.sevaId) === String(sevaId)
+  );
+  if(alreadyDone) {
+    alert('⚠️ ' + name + ' यांची या सेवेसाठी आधीच नोंद झाली आहे!');
+    return;
+  }
+
+  const sevaType = DB.sevaTypes().find(s=>String(s.id)===String(sevaId));
+  const newRecord = {
+    id: uid(), mobile, name,
+    age: document.getElementById('seva-age').value,
+    date, sevaId,
+    sevaName: sevaType ? sevaType.name : '',
+    sevaLocation: sevaType ? (sevaType.location||'') : '',
+    fee: sevaType ? (sevaType.fee||0) : 0
+  };
+  const d = DB.sevaRecords();
+  d.unshift(newRecord);
+  DB.set('sevaRecords', d);
+  sheetUpsert('sevaRecords', newRecord);
+
+  // Update select info
+  loadSevaSelect();
+  const assigned = d.filter(r=>String(r.sevaId)===String(sevaId)).length;
+  const needed = sevaType ? parseInt(sevaType.needed)||0 : 0;
+  alert('✓ सेवा नोंद झाली!\n' + name + ' → ' + (sevaType?sevaType.name:'') + '\n\nआता: ' + assigned + '/' + needed + ' volunteers');
+
+  // Clear form
+  ['seva-mobile','seva-name','seva-age'].forEach(f=>document.getElementById(f).value='');
+  document.getElementById('seva-user-info').textContent='';
+  document.getElementById('seva-select-info').textContent='';
+  document.getElementById('seva-date').value = today();
+  renderSeva();
+}
+
+function renderSeva() {
+  const types   = DB.sevaTypes();
+  const records = DB.sevaRecords();
+  const tEl = document.getElementById('seva-types-list');
+  if(!types.length) { tEl.innerHTML='<div class="empty">अजून सेवा नाही — "+ नवीन सेवा" दाबा</div>'; return; }
+  tEl.innerHTML = types.map(t => {
+    const tNameSafe = (t.name||'').replace(/'/g,"&#39;");
+    const assigned = records.filter(r=>String(r.sevaId)===String(t.id)).length;
+    const needed   = parseInt(t.needed)||0;
+    const pct      = needed>0 ? Math.min(100, Math.round((assigned/needed)*100)) : 0;
+    const statusColor = assigned>=needed&&needed>0 ? '#1d9e75' : assigned>0 ? '#ef9f27' : '#e24b4a';
+    const statusLabel = assigned>=needed&&needed>0 ? '✅ पूर्ण' : assigned+'/'+needed+' volunteers';
+    return `<div class="list-item" style="flex-direction:column;align-items:stretch;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="flex:1">
+          <div class="name">${t.name}</div>
+          <div class="sub">📍 ${t.location||'—'} ${t.date?'· 📅 '+fmt(t.date):''}</div>
+          <div class="sub">${t.freq}${t.fee>0?' · दक्षिणा '+fmtAmt(t.fee):''}${t.note?' · '+t.note:''}</div>
+        </div>
+        <div style="text-align:right;min-width:90px">
+          <span class="badge" style="background:${statusColor}22;color:${statusColor};border:1px solid ${statusColor}44">${statusLabel}</span>
+          <div style="font-size:11px;color:#aaa;margin-top:4px">${needed} आवश्यक</div>
+        </div>
+      </div>
+      <div class="vol-bar">
+        <div class="vol-track" style="flex:1"><div class="vol-fill" style="width:${pct}%;background:${statusColor}"></div></div>
+        <span style="font-size:11px;color:#888;min-width:32px;text-align:right">${pct}%</span>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button onclick="sevaTab('assign',document.querySelectorAll('#seva-main-tabs .tab')[1]);document.getElementById('seva-select').value='${t.id}';document.getElementById('seva-select').dispatchEvent(new Event('change'))" style="flex:1;background:#eeedfe;color:#534ab7;border:none;border-radius:7px;padding:6px;font-size:12px;cursor:pointer">+ श्रद्धावान जोडा</button>
+        <button onclick="askDelete('sevaType','${t.id}','${tNameSafe}')" style="background:#fce8e8;color:#a32d2d;border:none;border-radius:7px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ---- REPORT: By Seva ----
+function renderReportBySeva() {
+  const types   = DB.sevaTypes();
+  const records = DB.sevaRecords();
+  const el = document.getElementById('seva-report-by-seva');
+  if(!types.length) { el.innerHTML='<div class="empty">अजून सेवा नाही</div>'; return; }
+  el.innerHTML = types.map(t => {
+    const recs = records.filter(r=>String(r.sevaId)===String(t.id));
+    const needed = parseInt(t.needed)||0;
+    const pct = needed>0 ? Math.min(100,Math.round((recs.length/needed)*100)) : 0;
+    const statusColor = recs.length>=needed&&needed>0 ? '#1d9e75' : recs.length>0 ? '#ef9f27' : '#e24b4a';
+    return `<div class="card" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-weight:700;font-size:14px">${t.name}</div>
+          <div style="font-size:12px;color:#888">📍 ${t.location||'—'} ${t.date?'· 📅 '+fmt(t.date):''}</div>
+        </div>
+        <span class="badge" style="background:${statusColor}22;color:${statusColor}">${recs.length}/${needed}</span>
+      </div>
+      <div class="vol-bar" style="margin-bottom:8px">
+        <div class="vol-track" style="flex:1"><div class="vol-fill" style="width:${pct}%;background:${statusColor}"></div></div>
+        <span style="font-size:11px;color:#888;min-width:32px;text-align:right">${pct}%</span>
+      </div>
+      ${recs.length ? `<div style="font-size:12px;color:#555;font-weight:600;margin-bottom:5px">श्रद्धावान यादी:</div>
+      ${recs.map((r,i)=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid #f0ebe0;font-size:13px">
+        <span>${i+1}. ${r.name} ${r.age?'(वय '+r.age+')':''}</span>
+        <span style="color:#888;font-size:11px">${r.mobile||''} · ${fmt(r.date)}</span>
+      </div>`).join('')}` : '<div style="font-size:12px;color:#aaa;text-align:center;padding:8px">अजून कोणी नोंदलेले नाही</div>'}
+    </div>`;
+  }).join('');
+}
+
+// ---- REPORT: By Person ----
+function renderReportByPerson() {
+  const records = DB.sevaRecords();
+  const el = document.getElementById('seva-report-by-person');
+  if(!records.length) { el.innerHTML='<div class="empty">अजून सेवा नोंद नाही</div>'; return; }
+  const byPerson = {};
+  records.forEach(r => {
+    const key = r.mobile || r.name;
+    if(!byPerson[key]) byPerson[key] = { name: r.name, mobile: r.mobile, age: r.age, sevas: [] };
+    byPerson[key].sevas.push(r);
+  });
+  el.innerHTML = Object.values(byPerson).map(p => `
+    <div class="list-item" style="flex-direction:column;align-items:stretch;gap:6px">
+      <div style="display:flex;justify-content:space-between">
+        <div>
+          <div class="name">${p.name} ${p.age?'<span style="font-size:11px;color:#888;font-weight:400">(वय '+p.age+')</span>':''}</div>
+          <div class="sub">📱 ${p.mobile||'—'}</div>
+        </div>
+        <span class="badge badge-purple">${p.sevas.length} सेवा</span>
+      </div>
+      ${p.sevas.map(s=>`<div style="font-size:12px;color:#534ab7;padding:3px 0;border-bottom:0.5px solid #f0ebe0">
+        ▸ ${s.sevaName} ${s.sevaLocation?'('+s.sevaLocation+')':''} — ${fmt(s.date)}
+      </div>`).join('')}
+    </div>`).join('');
+}
+
+// ---- REPORT: All Records ----
+function renderAllRecords() {
+  const records = DB.sevaRecords();
+  const el = document.getElementById('seva-report-all');
+  if(!records.length) { el.innerHTML='<div class="empty">अजून सेवा नोंद नाही</div>'; return; }
+  el.innerHTML = records.map(r=>{
+    const rLabel = (r.name+' - '+r.sevaName).replace(/'/g,"&#39;");
+    return `<div class="list-item">
+      <div style="flex:1">
+        <div class="name">${r.name}</div>
+        <div class="sub">📱 ${r.mobile||'-'} ${r.age?'· वय '+r.age:''}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:13px;color:#534ab7;font-weight:600">${r.sevaName}</div>
+        <div style="font-size:11px;color:#888">${r.sevaLocation||''}</div>
+        <div class="date">${fmt(r.date)}</div>
+        <button onclick="askDelete('seva','${r.id}','${rLabel}')" style="background:#fce8e8;color:#a32d2d;border:none;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;margin-top:3px">🗑 Delete</button>
+      </div>
+    </div>`;}).join('');
+}
+
+// ===================== DASHBOARD =====================
+function renderDashboard() {
+  const dons = DB.donations();
+  const exps = DB.expenses();
+  const totalDon = dons.reduce((s,d)=>s+d.amt,0);
+  const totalExp = exps.reduce((s,e)=>s+e.price,0);
+  document.getElementById('dash-total-don').textContent = fmtAmt(totalDon);
+  document.getElementById('dash-total-exp').textContent = fmtAmt(totalExp);
+  document.getElementById('dash-net').textContent = fmtAmt(totalDon-totalExp);
+  document.getElementById('dash-don-count').textContent = dons.length;
+
+  // Monthly bar chart - last 6 months
+  const months6 = [];
+  const donByMonth = {}, expByMonth = {};
+  for(let i=5;i>=0;i--) {
+    const d = new Date();
+    d.setMonth(d.getMonth()-i);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    const lbl = `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear().toString().slice(2)}`;
+    months6.push({key,lbl});
+    donByMonth[key]=0; expByMonth[key]=0;
+  }
+  dons.forEach(d=>{ if(d.date&&donByMonth[d.date.slice(0,7)]!==undefined) donByMonth[d.date.slice(0,7)]+=d.amt; });
+  exps.forEach(e=>{ if(e.date&&expByMonth[e.date.slice(0,7)]!==undefined) expByMonth[e.date.slice(0,7)]+=e.price; });
+
+  if(monthlyChart) monthlyChart.destroy();
+  const ctx1 = document.getElementById('chart-monthly').getContext('2d');
+  monthlyChart = new Chart(ctx1, {
+    type:'bar',
+    data:{
+      labels: months6.map(m=>m.lbl),
+      datasets:[
+        { label:'स्वेच्छानिधी', data:months6.map(m=>donByMonth[m.key]), backgroundColor:'rgba(29,158,117,0.8)', borderRadius:5 },
+        { label:'खर्च', data:months6.map(m=>expByMonth[m.key]), backgroundColor:'rgba(226,75,74,0.8)', borderRadius:5 }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom', labels:{font:{size:11},boxWidth:12}} }, scales:{ y:{ ticks:{callback:v=>'₹'+v.toLocaleString('en-IN'),font:{size:10}}, grid:{color:'rgba(0,0,0,0.05)'} }, x:{ticks:{font:{size:10}}} } }
+  });
+
+  // Pie chart for donation types
+  const typeMap = {};
+  dons.forEach(d=>{ typeMap[d.type]=(typeMap[d.type]||0)+d.amt; });
+  if(donTypeChart) donTypeChart.destroy();
+  const ctx2 = document.getElementById('chart-don-type').getContext('2d');
+  const types = Object.keys(typeMap);
+  donTypeChart = new Chart(ctx2, {
+    type:'doughnut',
+    data:{
+      labels: types.length ? types : ['कोणतीही स्वेच्छानिधी नाही'],
+      datasets:[{ data: types.length ? types.map(t=>typeMap[t]) : [1], backgroundColor:['#1d9e75','#185fa5','#534ab7','#854f0b'], borderWidth:0 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom', labels:{font:{size:11},boxWidth:12}} } }
+  });
+
+  // Expense breakdown by category
+  const catMap = {};
+  exps.forEach(e=>{ catMap[e.cat||'इतर']=(catMap[e.cat||'इतर']||0)+e.price; });
+  const bEl = document.getElementById('dash-exp-breakdown');
+  if(!exps.length) { bEl.innerHTML='<div class="empty">अजून खर्च नाही</div>'; return; }
+  bEl.innerHTML = Object.entries(catMap).sort((a,b)=>b[1]-a[1]).map(([cat,amt])=>{
+    const pct = totalExp>0 ? Math.round((amt/totalExp)*100) : 0;
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px">
+        <span>${cat}</span><span style="font-weight:600">${fmtAmt(amt)} (${pct}%)</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:#b5470b"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ===================== INVENTORY =====================
+function saveInventory() {
+  const name=document.getElementById('inv-name').value.trim();
+  const qty=document.getElementById('inv-qty').value;
+  if(!name||qty==='') { alert('नाव आणि साठा आवश्यक'); return; }
+  const d = DB.inventory();
+  d.push({ id:uid(), name, qty:parseFloat(qty), unit:document.getElementById('inv-unit').value.trim(), thresh:parseFloat(document.getElementById('inv-thresh').value)||0, cat:document.getElementById('inv-cat').value });
+  DB.set('inventory',d);
+  closeModal('modal-add-inv');
+  renderInventory(); renderHome();
+}
+
+function openEditInv(id) {
+  const item = DB.inventory().find(i=>i.id===id);
+  if(!item) return;
+  document.getElementById('edit-inv-id').value=id;
+  document.getElementById('edit-inv-name').value=item.name;
+  document.getElementById('edit-inv-qty').value=item.qty;
+  document.getElementById('edit-inv-unit').value=item.unit;
+  document.getElementById('edit-inv-thresh').value=item.thresh;
+  openModal('modal-edit-inv');
+}
+
+function updateInventory() {
+  const id=document.getElementById('edit-inv-id').value;
+  const d=DB.inventory();
+  const i=d.findIndex(x=>x.id===id);
+  if(i<0) return;
+  d[i].qty=parseFloat(document.getElementById('edit-inv-qty').value);
+  d[i].thresh=parseFloat(document.getElementById('edit-inv-thresh').value)||0;
+  DB.set('inventory',d);
+  closeModal('modal-edit-inv');
+  renderInventory(); renderHome();
+}
+
+function renderInventory() {
+  const list=DB.inventory();
+  const el=document.getElementById('inv-list');
+  if(!list.length) { el.innerHTML='<div class="empty">अजून सामान नाही</div>'; return; }
+  el.innerHTML=list.map(item=>{
+    const low=item.thresh>0&&item.qty<=item.thresh;
+    const color=low?'#e24b4a':item.qty<=item.thresh*1.5?'#ef9f27':'#1d9e75';
+    const barPct=Math.min(100,item.thresh>0?Math.round((item.qty/(item.thresh*3))*100):70);
+    return `<div class="list-item" style="flex-direction:column;align-items:stretch;gap:7px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="name">${item.name} <span class="badge" style="background:#f0ebe0;color:#888;font-size:10px">${item.cat}</span></div>
+          <div class="sub">साठा: <strong>${item.qty} ${item.unit}</strong> · सूचना: ${item.thresh} ${item.unit}</div>
+        </div>
+        <div style="display:flex;gap:5px;align-items:center">
+          ${low?'<span class="badge badge-red">कमी ⚠️</span>':''}
+          <button onclick="openEditInv('${item.id}')" style="background:#f5f0e8;border:1px solid #ddd;border-radius:7px;padding:5px 9px;font-size:12px;cursor:pointer">अपडेट</button>
+        </div>
+      </div>
+      <div class="inv-bar-wrap"><div class="inv-bar" style="width:${barPct}%;background:${color}"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ===================== USERS =====================
+function userTab(tab, el) {
+  if(!el) return;
+  document.querySelectorAll('#page-users .tabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('user-tab-list').style.display=tab==='list'?'block':'none';
+  document.getElementById('user-tab-add').style.display=tab==='add'?'block':'none';
+  if(tab==='list') renderUsers();
+}
+
+let currentExistingUserId = null;
+let pendingDeleteType = null;
+let pendingDeleteId = null;
+
+function saveUser() {
+  var mobileEl = document.getElementById('user-mobile');
+  var fnameEl  = document.getElementById('user-fname');
+  var lnameEl  = document.getElementById('user-lname');
+  if(!mobileEl || !fnameEl || !lnameEl) { alert('Form elements missing'); return; }
+
+  var mobile = mobileEl.value.trim();
+  var fname  = fnameEl.value.trim();
+  var lname  = lnameEl.value.trim();
+
+  // Validation
+  if(!mobile || !fname || !lname) {
+    alert('मोबाइल, पहिले नाव आणि आडनाव आवश्यक आहे');
+    return;
+  }
+  if(mobile.length !== 10) {
+    alert('मोबाइल नंबर 10 अंकी असावा');
+    return;
+  }
+
+  // Duplicate check
+  if(findUserByMobile(mobile)) {
+    alert('हा मोबाइल नंबर आधीच नोंदला आहे');
+    return;
+  }
+
+  // Build user object
+  var newUser = {
+    id:        uid(),
+    mobile:    mobile,
+    fname:     fname,
+    mname:     (document.getElementById('user-mname') || {value:''}).value.trim(),
+    lname:     lname,
+    dob:       (document.getElementById('user-dob') || {value:''}).value,
+    gender:    (document.getElementById('user-gender') || {value:'पुरुष'}).value,
+    role:      (document.getElementById('user-role') || {value:'member'}).value,
+    email:     (document.getElementById('user-email') || {value:''}).value.trim(),
+    addr:      (document.getElementById('user-addr') || {value:''}).value.trim(),
+    createdAt: today()
+  };
+
+  // Save to localStorage FIRST
+  try {
+    var users = DB.users();
+    users.push(newUser);
+    DB.set('users', users);
+  } catch(e) {
+    alert('Local save failed: ' + e.message);
+    return;
+  }
+
+  // Clear form
+  ['user-mobile','user-fname','user-mname','user-lname','user-dob','user-addr','user-email'].forEach(function(fId){
+    var el = document.getElementById(fId);
+    if(el) el.value = '';
+  });
+  var infoEl = document.getElementById('user-user-info');
+  if(infoEl) infoEl.textContent = '';
+
+  // Show success
+  alert('✓ सदस्य नोंद झाली! (' + newUser.fname + ' ' + newUser.lname + ')');
+
+  // Switch to list tab
+  var tabs = document.querySelectorAll('#page-users .tab');
+  if(tabs && tabs[0]) userTab('list', tabs[0]);
+
+  // Render updated list
+  renderUsers();
+  renderHome();
+
+  // Sync to Google Sheets (async — after UI update)
+  setTimeout(function() { sheetUpsert('users', newUser); }, 500);
+}
+
+function editExistingUser() {
+  const user = DB.users().find(u=>u.id===currentExistingUserId);
+  if(!user) return;
+  closeModal('modal-existing-user');
+  document.getElementById('edit-user-id').value=user.id;
+  document.getElementById('edit-user-mobile').value=user.mobile;
+  document.getElementById('edit-user-fname').value=user.fname;
+  document.getElementById('edit-user-mname').value=user.mname||'';
+  document.getElementById('edit-user-lname').value=user.lname;
+  document.getElementById('edit-user-dob').value=user.dob||'';
+  document.getElementById('edit-user-gender').value=user.gender||'पुरुष';
+  document.getElementById('edit-user-role').value=user.role||'member';
+  document.getElementById('edit-user-email').value=user.email||'';
+  document.getElementById('edit-user-addr').value=user.addr||'';
+  openModal('modal-edit-user');
+}
+
+function updateUser() {
+  const id=document.getElementById('edit-user-id').value;
+  const d=DB.users();
+  const i=d.findIndex(u=>u.id===id);
+  if(i<0) return;
+  d[i].mobile=document.getElementById('edit-user-mobile').value.trim();
+  d[i].fname=document.getElementById('edit-user-fname').value.trim();
+  d[i].mname=document.getElementById('edit-user-mname').value.trim();
+  d[i].lname=document.getElementById('edit-user-lname').value.trim();
+  d[i].dob=document.getElementById('edit-user-dob').value;
+  d[i].gender=document.getElementById('edit-user-gender').value;
+  d[i].role=document.getElementById('edit-user-role').value;
+  d[i].email=document.getElementById('edit-user-email').value.trim();
+  d[i].addr=document.getElementById('edit-user-addr').value.trim();
+  DB.set('users',d);
+  closeModal('modal-edit-user');
+  renderUsers();
+  alert('✓ माहिती अपडेट झाली!');
+}
+
+function deleteExistingUser() {
+  closeModal('modal-existing-user');
+  const user=DB.users().find(u=>u.id===currentExistingUserId);
+  if(!user) return;
+  pendingDeleteType='user';
+  pendingDeleteId=currentExistingUserId;
+  document.getElementById('delete-confirm-msg').innerHTML=
+    '<strong>'+[user.fname,user.mname,user.lname].filter(Boolean).join(' ')+'</strong> ('+user.mobile+') हा सदस्य कायमचा Delete होईल.<br><br>हे पूर्ववत करता येणार नाही.';
+  openModal('modal-delete-confirm');
+}
+
+function askDelete(type, id, label) {
+  pendingDeleteType=type;
+  pendingDeleteId=id;
+  document.getElementById('delete-confirm-msg').innerHTML='<strong>'+label+'</strong> ही नोंद कायमची Delete होईल.<br><br>हे पूर्ववत करता येणार नाही.';
+  openModal('modal-delete-confirm');
+}
+
+function confirmDelete() {
+  if(!pendingDeleteType||!pendingDeleteId) return;
+  const keyMap={user:'users',donation:'donations',expense:'expenses',seva:'sevaRecords',sevaType:'sevaTypes',inv:'inventory'};
+  const key=keyMap[pendingDeleteType];
+  if(!key) return;
+  const d=DB.get(key).filter(x=>x.id!==pendingDeleteId);
+  DB.set(key,d);
+  sheetDelete(key, pendingDeleteId); // sync delete to Google Sheets
+  closeModal('modal-delete-confirm');
+  pendingDeleteType=null; pendingDeleteId=null;
+  renderPage(document.querySelector('.page.active').id.replace('page-',''));
+  renderHome();
+}
+
+function renderUsers() {
+  const list=DB.users();
+  const el=document.getElementById('users-list');
+  if(!list.length) { el.innerHTML='<div class="empty">अजून सदस्य नाही</div>'; return; }
+  const roleLabel={admin:'प्रशासक',volunteer:'स्वयंसेवक',member:'सदस्य'};
+  const roleClass={admin:'role-admin',volunteer:'role-volunteer',member:'role-member'};
+  el.innerHTML=list.map(u=>{
+    const uName = [u.fname,u.mname,u.lname].filter(Boolean).join(' ').replace(/'/g,"&#39;");
+    return `<div class="list-item" style="align-items:flex-start">
+      <div style="flex:1">
+        <div class="name">${u.fname} ${u.mname||''} ${u.lname}
+          <span class="role-tag ${roleClass[u.role]||'role-member'}">${roleLabel[u.role]||'सदस्य'}</span>
+        </div>
+        <div class="sub">📱 ${u.mobile} ${u.dob?'· वय '+calcAge(u.dob):''} ${u.gender?'· '+u.gender:''}</div>
+        ${u.dob?`<div class="sub">जन्म: ${fmt(u.dob)}</div>`:''}
+        ${u.email?`<div class="sub">✉️ ${u.email}</div>`:''}
+        ${u.addr?`<div class="sub">${u.addr}</div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-left:8px">
+        <button onclick="openEditUserById('${u.id}')" style="background:#e6f1fb;color:#185fa5;border:none;border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer">✏️ Edit</button>
+        <button onclick="askDelete('user','${u.id}','${uName}')" style="background:#fce8e8;color:#a32d2d;border:none;border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer">🗑 Delete</button>
+      </div>
+    </div>`;}).join('');
+}
+
+function openEditUserById(id) {
+  currentExistingUserId = id;
+  editExistingUser();
+}
+
+
+// ===================== BIRTHDAY ALERTS =====================
+function renderBdayAlerts() {
+  const el = document.getElementById('bday-alerts');
+  if(!el) return;
+  const users = DB.users();
+  if(!users.length) { el.innerHTML=''; return; }
+
+  const today = new Date();
+  const todayMD = (today.getMonth()+1)*100 + today.getDate(); // e.g. 712 for July 12
+
+  const results = [];
+
+  users.forEach(u => {
+    if(!u.dob) return;
+    const parts = u.dob.split('-');
+    if(parts.length < 3) return;
+    const bMonth = parseInt(parts[1]);
+    const bDay   = parseInt(parts[2]);
+    const bYear  = parseInt(parts[0]);
+    if(!bMonth || !bDay) return;
+
+    // Calculate age this year
+    const thisYearBday = new Date(today.getFullYear(), bMonth-1, bDay);
+    const diffDays = Math.round((thisYearBday - today) / (1000*60*60*24));
+
+    // Check last 7 and next 7 days (including today)
+    if(diffDays >= -7 && diffDays <= 7) {
+      const age = today.getFullYear() - bYear + (diffDays <= 0 ? 0 : -1);
+      const fullName = [u.fname, u.mname, u.lname].filter(Boolean).join(' ');
+      const bdayFmt = bDay + '/' + String(bMonth).padStart(2,'0');
+
+      let label, color, bg, icon;
+      if(diffDays === 0) {
+        label = '🎂 आज वाढदिवस!';
+        color = '#854f0b'; bg = '#fff3da'; icon = '🎂';
+      } else if(diffDays > 0) {
+        label = diffDays + ' दिवसांनी';
+        color = '#185fa5'; bg = '#e6f1fb'; icon = '🔔';
+      } else {
+        label = Math.abs(diffDays) + ' दिवसांपूर्वी';
+        color = '#888'; bg = '#f5f0e8'; icon = '🎁';
+      }
+
+      results.push({ fullName, age, bdayFmt, label, color, bg, icon, diffDays });
+    }
+  });
+
+  // Sort: today first, then upcoming, then past
+  results.sort((a,b) => {
+    const av = a.diffDays === 0 ? -999 : a.diffDays > 0 ? a.diffDays : 1000 + Math.abs(a.diffDays);
+    const bv = b.diffDays === 0 ? -999 : b.diffDays > 0 ? b.diffDays : 1000 + Math.abs(b.diffDays);
+    return av - bv;
+  });
+
+  if(!results.length) { el.innerHTML=''; return; }
+
+  el.innerHTML = `<div style="margin-bottom:12px">
+    <div style="font-size:12px;color:#888;font-weight:600;letter-spacing:0.4px;margin-bottom:6px">🎂 वाढदिवस (±7 दिवस)</div>
+    ${results.map(r => `
+    <div style="background:${r.bg};border-radius:10px;padding:10px 13px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;border:0.5px solid ${r.color}33">
+      <div>
+        <div style="font-weight:600;font-size:13px">${r.icon} ${r.fullName}</div>
+        <div style="font-size:11px;color:#888;margin-top:2px">📅 ${r.bdayFmt} · वय ${r.diffDays<=0?r.age+1:r.age} वर्षे</div>
+      </div>
+      <div style="font-size:12px;font-weight:600;color:${r.color};text-align:right">${r.label}</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ===================== HOME =====================
+function renderHome() {
+  const m=thisMonth();
+  const dons=DB.donations().filter(d=>d.date&&d.date.startsWith(m));
+  const exps=DB.expenses().filter(e=>e.date&&e.date.startsWith(m));
+  const totalDon=dons.reduce((s,d)=>s+d.amt,0);
+  const totalExp=exps.reduce((s,e)=>s+e.price,0);
+  document.getElementById('home-don').textContent=fmtAmt(totalDon);
+  document.getElementById('home-exp').textContent=fmtAmt(totalExp);
+  document.getElementById('home-surplus').textContent=fmtAmt(totalDon-totalExp);
+  document.getElementById('home-members').textContent=DB.users().length;
+
+  // Module counts
+  document.getElementById('mod-don-count').textContent=DB.donations().length+' नोंदी';
+  document.getElementById('mod-exp-count').textContent=DB.expenses().length+' नोंदी';
+  document.getElementById('mod-seva-count').textContent=DB.sevaTypes().length+' सेवा प्रकार';
+  document.getElementById('mod-user-count').textContent=DB.users().length+' सदस्य नोंदलेले';
+
+  // Low stock alerts
+  const lowItems=DB.inventory().filter(i=>i.thresh>0&&i.qty<=i.thresh);
+  document.getElementById('low-stock-alerts').innerHTML=lowItems.map(i=>`
+    <div class="alert alert-warn">⚠️ <div><strong>${i.name}</strong> – फक्त ${i.qty} ${i.unit} शिल्लक</div></div>`).join('');
+
+  // Birthday alerts
+  renderBdayAlerts();
+
+  // Recent donations
+  const recDon=DB.donations().slice(0,3);
+  document.getElementById('home-recent-don').innerHTML=recDon.length ? recDon.map(d=>`
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid #f0ebe0">
+      <span style="font-size:13px">${d.fname} ${d.lname||''}</span>
+      <span style="font-size:13px;font-weight:600;color:#1d9e75">${fmtAmt(d.amt)}</span>
+    </div>`).join('') : '<div class="empty" style="padding:10px 0">अजून नोंद नाही</div>';
+
+  // Upcoming seva
+  const upcoming=DB.sevaRecords().slice(0,3);
+  document.getElementById('home-upcoming-seva').innerHTML=upcoming.length ? upcoming.map(r=>`
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid #f0ebe0">
+      <span style="font-size:13px">${r.name} – <em style="color:#534ab7">${r.sevaName}</em></span>
+      <span style="font-size:11px;color:#888">${fmt(r.date)}</span>
+    </div>`).join('') : '<div class="empty" style="padding:10px 0">अजून नोंद नाही</div>';
+}
+
+
+// ===================== SEED DATA — Pre-loaded =====================
+function seedInitialData() {
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+  // ---- USERS ----
+  const newUsers = [
+    {fname:"Kavita",mname:"Chandrakant",lname:"Chavan",mobile:"9869478760",dob:"1976-06-27",gender:"महिला",role:"member",email:"kavichavan2776@gmail.com",addr:""},
+    {fname:"Suchita",mname:"Nalin",lname:"Tawde",mobile:"9869043018",dob:"1973-12-29",gender:"महिला",role:"member",email:"suchi.nalin@gmail.com",addr:""},
+    {fname:"Madhura",mname:"Nalin",lname:"Tawde",mobile:"9321235539",dob:"2007-12-01",gender:"महिला",role:"member",email:"mtawde23@gmail.com",addr:""},
+    {fname:"Balvant",mname:"Bhalchandra",lname:"Chavan",mobile:"9987446799",dob:"1977-11-28",gender:"पुरुष",role:"member",email:"balvantchavan28@gmail.com",addr:""},
+    {fname:"Rutuja",mname:"Balvant",lname:"Chavan",mobile:"8692841209",dob:"1973-05-20",gender:"महिला",role:"member",email:"rutuchavan205@gmail.com",addr:""},
+    {fname:"Sakshi",mname:"Balvant",lname:"Chavan",mobile:"8104501264",dob:"2003-12-23",gender:"महिला",role:"member",email:"sakshu.ch2318@gmail.com",addr:""},
+    {fname:"Santoshi",mname:"Sunil",lname:"Poddar",mobile:"9920259816",dob:"1976-03-13",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Anuradha",mname:"",lname:"Prabhu",mobile:"8850439049",dob:"1970-06-13",gender:"महिला",role:"member",email:"anuradhaprabhu16@gmail.com",addr:""},
+    {fname:"Smita",mname:"Sunil",lname:"Dhavadaskar",mobile:"",dob:"1974-08-15",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sunil",mname:"Bhalchandra",lname:"Dhavadaskar",mobile:"",dob:"1969-01-18",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Dattatray",mname:"Vidyadhar",lname:"Sakharkar",mobile:"8898380946",dob:"1967-04-14",gender:"पुरुष",role:"member",email:"dattatray2025@gmail.com",addr:""},
+    {fname:"Anagha",mname:"Dattatray",lname:"Sakharkar",mobile:"9702689619",dob:"1971-11-17",gender:"महिला",role:"member",email:"anaghas0225@gmail.com",addr:""},
+  ];
+
+  // ---- DONATIONS ----
+  const newDonations = [
+    {fname:"शुभा",mname:"",lname:"महात्रे",mobile:"",amt:500,date:"2026-04-04",type:"रोख",note:""},
+    {fname:"शामल",mname:"",lname:"चितरंजन",mobile:"",amt:200,date:"2026-04-11",type:"रोख",note:""},
+    {fname:"सुजाता",mname:"",lname:"शेटी",mobile:"",amt:500,date:"2026-04-11",type:"रोख",note:""},
+    {fname:"राजेश",mname:"",lname:"पवार",mobile:"",amt:500,date:"2026-04-11",type:"रोख",note:""},
+    {fname:"मृणालिनी",mname:"",lname:"मस्कर",mobile:"",amt:500,date:"2026-04-11",type:"रोख",note:""},
+    {fname:"राजेश",mname:"",lname:"पवार",mobile:"",amt:300,date:"2026-05-02",type:"रोख",note:""},
+    {fname:"शुभा",mname:"",lname:"महात्रे",mobile:"",amt:500,date:"2026-05-02",type:"रोख",note:""},
+    {fname:"अनुराधा",mname:"",lname:"सायक",mobile:"",amt:201,date:"2026-05-18",type:"रोख",note:""},
+    {fname:"विमला",mname:"",lname:"काळे",mobile:"",amt:200,date:"2026-05-30",type:"रोख",note:""},
+    {fname:"सुमिता",mname:"",lname:"शेडकर",mobile:"",amt:200,date:"2026-05-16",type:"रोख",note:""},
+    {fname:"विजया",mname:"",lname:"शिंदे",mobile:"",amt:200,date:"2026-05-16",type:"रोख",note:""},
+    {fname:"संतोषी",mname:"",lname:"पोद्दार",mobile:"9920259816",amt:100,date:"2026-05-16",type:"रोख",note:""},
+    {fname:"सुप्रिया",mname:"",lname:"पोद्दार",mobile:"",amt:200,date:"2026-05-16",type:"रोख",note:""},
+    {fname:"लक्ष्मी",mname:"",lname:"कातले",mobile:"",amt:500,date:"2026-05-23",type:"रोख",note:""},
+    {fname:"सुजाता",mname:"",lname:"शेटी",mobile:"",amt:100,date:"2026-05-23",type:"रोख",note:""},
+    {fname:"शालिनी",mname:"",lname:"चितरंजन",mobile:"",amt:500,date:"2026-05-23",type:"रोख",note:""},
+    {fname:"सुचिता",mname:"",lname:"मोरे",mobile:"",amt:1000,date:"2026-06-06",type:"रोख",note:"Apr"},
+    {fname:"सुचिता",mname:"",lname:"मोरे",mobile:"",amt:500,date:"2026-06-06",type:"रोख",note:""},
+    {fname:"प्रेमोय",mname:"",lname:"कदगावकर",mobile:"",amt:1200,date:"2026-06-06",type:"रोख",note:"Jan"},
+    {fname:"संगीता",mname:"",lname:"कांबळे",mobile:"",amt:500,date:"2026-06-06",type:"रोख",note:""},
+    {fname:"विजय",mname:"",lname:"सोलकर",mobile:"",amt:500,date:"2026-06-06",type:"रोख",note:""},
+    {fname:"शुभा",mname:"",lname:"महात्रे",mobile:"",amt:500,date:"2026-06-13",type:"रोख",note:""},
+    {fname:"सुप्रिया",mname:"",lname:"पोद्दार",mobile:"",amt:101,date:"2026-06-13",type:"रोख",note:""},
+    {fname:"मृणालिनी",mname:"",lname:"मस्कर",mobile:"",amt:1000,date:"2026-06-20",type:"रोख",note:""},
+    {fname:"अनुराधा",mname:"",lname:"नायक",mobile:"",amt:500,date:"2026-06-20",type:"रोख",note:""},
+    {fname:"आनंद",mname:"",lname:"राऊत",mobile:"",amt:250,date:"2026-06-20",type:"रोख",note:""},
+    {fname:"प्रकाश",mname:"",lname:"गोमोड",mobile:"",amt:500,date:"2026-06-26",type:"रोख",note:""},
+    {fname:"सुचिता",mname:"",lname:"मोरे",mobile:"",amt:500,date:"2026-07-11",type:"रोख",note:""},
+  ];
+
+  // ---- EXPENSES ----
+  const newExpenses = [
+    {purpose:"इतर खर्च - Speaker",item:"Speaker",by:"",price:8500,qty:"1",date:"2026-04-13",cat:"देखभाल",note:"Bill available"},
+    {purpose:"इतर खर्च - कापूस/वेणी",item:"कापूस/वेणी",by:"",price:730,qty:"",date:"2026-06-13",cat:"पूजा साहित्य",note:"Bill available"},
+    {purpose:"June Rent",item:"भाडे",by:"",price:1200,qty:"",date:"2026-06-01",cat:"देखभाल",note:""},
+    {purpose:"Har June - हार",item:"हार",by:"",price:1600,qty:"",date:"2026-06-01",cat:"पूजा साहित्य",note:""},
+    {purpose:"इतर खर्च",item:"",by:"",price:380,qty:"",date:"2026-07-12",cat:"इतर",note:""},
+  ];
+
+  // ---- MERGE USERS (skip duplicates by mobile) ----
+  var existingUsers = DB.users();
+  var existingMobiles = existingUsers.map(function(u){ return String(u.mobile||'').replace(/\D/g,'').slice(-10); });
+  var addedU = 0;
+  newUsers.forEach(function(u) {
+    u.id = uid(); u.createdAt = '2026-07-12';
+    var mob = String(u.mobile||'').replace(/\D/g,'').slice(-10);
+    if(mob && existingMobiles.indexOf(mob) >= 0) return; // skip duplicate
+    existingUsers.push(u);
+    existingMobiles.push(mob);
+    addedU++;
+  });
+  DB.set('users', existingUsers);
+
+  // ---- ADD DONATIONS ----
+  var existingDons = DB.donations();
+  newDonations.forEach(function(d) { d.id = uid(); existingDons.push(d); });
+  // Sort by date desc
+  existingDons.sort(function(a,b){ return b.date > a.date ? 1 : -1; });
+  DB.set('donations', existingDons);
+
+  // ---- ADD EXPENSES ----
+  var existingExp = DB.expenses();
+  newExpenses.forEach(function(e) { e.id = uid(); existingExp.push(e); });
+  existingExp.sort(function(a,b){ return b.date > a.date ? 1 : -1; });
+  DB.set('expenses', existingExp);
+
+  console.log('Seed done — Users added: ' + addedU + ', Donations: ' + newDonations.length + ', Expenses: ' + newExpenses.length);
+}
+
+// ===================== SEED DATA v2 — PDF Members =====================
+function seedPDFMembers() {
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+  // All 101 members from Amboli_Shraddhavan_Data.pdf
+  const pdfMembers = [
+    {fname:"Dattatray",mname:"Vidyadhar",lname:"Sakharkar",mobile:"8898380946",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Anagha",mname:"Dattatray",lname:"Sakharkar",mobile:"9702689619",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Prathamesh",mname:"Dattatray",lname:"Sakharkar",mobile:"9768891170",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Avadhoot",mname:"Dattatray",lname:"Sakharkar",mobile:"9167593033",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Sangeeta",mname:"Pandurang",lname:"More",mobile:"9820803509",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Suchita",mname:"Pandurang",lname:"More",mobile:"9987032217",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Prabhavati",mname:"Pandurang",lname:"More",mobile:"9664910663",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Shreepad",mname:"",lname:"Mhatre",mobile:"9821461807",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Shubha",mname:"Shreepad",lname:"Mhatre",mobile:"9969059430",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Omkar",mname:"Shreepad",lname:"Mhatre",mobile:"9511561591",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Rutika",mname:"Omkar",lname:"Mhatre",mobile:"9969265518",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Vijay",mname:"Jayram",lname:"Solkar",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Shilpa",mname:"Vijay",lname:"Solkar",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Prachi",mname:"Vijay",lname:"Solkar",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Pramod",mname:"Dattatray",lname:"Karanjavkar",mobile:"9920820464",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Pradnya",mname:"Pramod",lname:"Karanjavkar",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Samruddhi",mname:"Pramod",lname:"Karanjavkar",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sarvesh",mname:"Pramod",lname:"Karanjavkar",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Santosh",mname:"Dattatray",lname:"Karanjavkar",mobile:"9702262119",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Shubhada",mname:"Santosh",lname:"Karanjavkar",mobile:"9869478760",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Aaditya",mname:"Santosh",lname:"Karanjavkar",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Kavita",mname:"Chandrakant",lname:"Chavan",mobile:"9869043018",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Suchita",mname:"Nalin",lname:"Tawde",mobile:"9321235539",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Madhura",mname:"Nalin",lname:"Tawde",mobile:"9987544699",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Balvant",mname:"Bhalchandra",lname:"Chavan",mobile:"8692841209",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Rutuja",mname:"Balvant",lname:"Chavan",mobile:"8104501264",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sakshi",mname:"Balvant",lname:"Chavan",mobile:"9920768667",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sunil",mname:"",lname:"Dhavadaskar",mobile:"9920189177",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Smita",mname:"Suneel",lname:"Dhavadaskar",mobile:"9769469128",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Samiksha",mname:"Suneel",lname:"Dhavadaskar",mobile:"9653319172",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Aary",mname:"Suneel",lname:"Dhavadaskar",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Saurabh",mname:"Prakash",lname:"Patil",mobile:"9869343016",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Priyanka",mname:"Saurabh",lname:"Patil",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Madhavi",mname:"Prakash",lname:"Patil",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Suresh",mname:"",lname:"Vartak",mobile:"8591615184",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Dharmesh",mname:"",lname:"Parmar",mobile:"9867303285",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Suneel",mname:"Keshav",lname:"Urade",mobile:"7506265794",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Pradnya",mname:"Suneel",lname:"Urade",mobile:"7303348395",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Prakash",mname:"",lname:"Gomade",mobile:"9768562970",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Pramila",mname:"Prakash",lname:"Gomade",mobile:"9619429958",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Lakshmi",mname:"Dattaram",lname:"Kaitle",mobile:"8976214812",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Anuradha",mname:"",lname:"Prabhu",mobile:"9326793087",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sharda",mname:"",lname:"Pawar",mobile:"9326321463",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sanjog",mname:"",lname:"Pawar",mobile:"9833997944",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Pratibha",mname:"",lname:"Durgawali",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Anita",mname:"",lname:"Padwal",mobile:"9920259816",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Bharti",mname:"",lname:"Telange",mobile:"8879232389",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Shobha",mname:"Upendra",lname:"Poddar",mobile:"8454029170",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Santoshi",mname:"",lname:"Poddar",mobile:"9930374299",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Suneeta",mname:"Sudhakar",lname:"Bhadekar",mobile:"9969236826",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Meenakshi",mname:"Dnyaneshwar",lname:"Patkar",mobile:"9029403329",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Rohit",mname:"Dnyaneshwar",lname:"Patkar",mobile:"9867260921",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Shalita",mname:"Chittaranjan",lname:"",mobile:"8169318846",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Vijaya",mname:"Vinod",lname:"Shinde",mobile:"7021284140",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Swati",mname:"",lname:"Sawant",mobile:"9867128484",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Lakshman",mname:"Bhagoji",lname:"Shinde",mobile:"9869745258",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Meena",mname:"Lakshman",lname:"Shinde",mobile:"8779757223",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Hema",mname:"",lname:"Jaykar",mobile:"7208844552",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Mrudulata",mname:"",lname:"Ambre",mobile:"9773826689",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Shubhangi",mname:"",lname:"Timble",mobile:"9769841303",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Satyawan",mname:"",lname:"Chavan",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Pooja",mname:"Kiran",lname:"Sawant",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Hardik",mname:"Kiran",lname:"Shinde",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Anant",mname:"",lname:"Shinde",mobile:"9969194955",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Ashwini",mname:"Anant",lname:"Shinde",mobile:"7977915456",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Vedika",mname:"Anant",lname:"Shinde",mobile:"7303199205",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Parag",mname:"Anant",lname:"Shinde",mobile:"9930408669",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Manoj",mname:"",lname:"Walawalkar",mobile:"9137083583",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Indrayani",mname:"Manoj",lname:"Walawalkar",mobile:"9324096684",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Amey",mname:"Manoj",lname:"Walawalkar",mobile:"9967754342",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Sameer",mname:"",lname:"Patil",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Rajendra",mname:"",lname:"Pawar",mobile:"9326597749",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Sangeeta",mname:"Ravindra",lname:"Kamble",mobile:"9619120287",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Nirmala",mname:"",lname:"Pise",mobile:"9004871680",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Priya",mname:"",lname:"Patne",mobile:"9969320449",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Madhavi",mname:"",lname:"Tilve",mobile:"8879596077",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Vidya",mname:"",lname:"Sakharkar",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Pradnesh",mname:"",lname:"Chachad",mobile:"8879195707",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Dhanashree",mname:"Pradnesh",lname:"Chachad",mobile:"9833307956",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Aakruti",mname:"Pradnesh",lname:"Chachad",mobile:"9892576500",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Santosh",mname:"",lname:"Wadekar",mobile:"9867821925",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Ranjana",mname:"Santosh",lname:"Wadekar",mobile:"9619043536",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Vighnesh",mname:"Santosh",lname:"Wadekar",mobile:"9892757372",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Vedant",mname:"Santosh",lname:"Wadekar",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Prashant",mname:"",lname:"Devrukhakar",mobile:"9969137698",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Suvarna",mname:"Prashant",lname:"Devrukhakar",mobile:"9821178553",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Hasya",mname:"Prashant",lname:"Devrukhakar",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Veda",mname:"Prashant",lname:"Devrukhakar",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Nanda",mname:"Baburao",lname:"Soyam",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sunila",mname:"",lname:"Pathare",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Dhanashree",mname:"Jayram",lname:"Chikhale",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Aparna",mname:"Amod",lname:"Karkhanis",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sneha",mname:"",lname:"More",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sushil",mname:"",lname:"Masurkar",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Mrunalini",mname:"Sushil",lname:"Masurkar",mobile:"",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Sandeep",mname:"Rajaram",lname:"Sawant",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Dhundiraj",mname:"",lname:"Juvekar",mobile:"",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Avantika",mname:"Dhundiraj",lname:"Juvekar",mobile:"9892009578",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Parag",mname:"",lname:"Sakhare",mobile:"8108214408",dob:"",gender:"पुरुष",role:"member",email:"",addr:""},
+    {fname:"Poornima",mname:"Ramesh",lname:"Sakhare",mobile:"9757301091",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+    {fname:"Anuradha",mname:"Atul",lname:"Nayak",mobile:"9004676804",dob:"",gender:"महिला",role:"member",email:"",addr:""},
+  ];
+
+  // Merge: skip duplicates by mobile number
+  var existingUsers = DB.users();
+  var existingMobiles = existingUsers.map(function(u){ return String(u.mobile||'').replace(/\D/g,'').slice(-10); });
+  var existingNames = existingUsers.map(function(u){ return (u.fname+u.lname).toLowerCase().replace(/\s/g,''); });
+  var addedU = 0;
+  pdfMembers.forEach(function(u) {
+    var mob = String(u.mobile||'').replace(/\D/g,'').slice(-10);
+    var nameKey = (u.fname+u.lname).toLowerCase().replace(/\s/g,'');
+    // Skip if mobile matches OR if name matches (to avoid duplicates from old seed)
+    if(mob && existingMobiles.indexOf(mob) >= 0) return;
+    if(existingNames.indexOf(nameKey) >= 0) return;
+    u.id = uid(); u.createdAt = '2026-10-25';
+    existingUsers.push(u);
+    if(mob) existingMobiles.push(mob);
+    existingNames.push(nameKey);
+    addedU++;
+  });
+  DB.set('users', existingUsers);
+  console.log('PDF Seed v2 done — Members added: ' + addedU + ' (total: ' + existingUsers.length + ')');
+  return addedU;
+}
+
+// ===================== AUTH SYSTEM =====================
+const APP_USERS = {
+  'saurabh':   { pass: 'ambolisaurabh',   role: 'superadmin', display: 'Saurabh' },
+  'kavita':    { pass: 'ambolikavita',     role: 'editor',     display: 'Kavita' },
+  'sangeeta':  { pass: 'ambolisangeeta',   role: 'editor',     display: 'Sangeeta' },
+  'suchita':   { pass: 'ambolisuchita',    role: 'editor',     display: 'Suchita' },
+  'dattatray': { pass: 'ambolidattatray',  role: 'editor',     display: 'Dattatray' },
+  'anagha':    { pass: 'ambolianagha',     role: 'editor',     display: 'Anagha' },
+  'shubha':    { pass: 'ambolishubha',     role: 'editor',     display: 'Shubha' },
+  'vijay':     { pass: 'ambolivijay',      role: 'viewer',     display: 'Vijay' },
+  'anant':     { pass: 'ambolianant',      role: 'viewer',     display: 'Anant' },
+  'pramod':    { pass: 'ambolipramod',     role: 'viewer',     display: 'Pramod' },
+};
+
+var CURRENT_USER = null;
+
+function getSession() {
+  try { var s = sessionStorage.getItem('aaua_sess'); if(s) return JSON.parse(s); } catch(e){}
+  return null;
+}
+function setSession(u) { sessionStorage.setItem('aaua_sess', JSON.stringify(u)); }
+function clearSession() { sessionStorage.removeItem('aaua_sess'); }
+
+function doLogin() {
+  var u = (document.getElementById('li-user').value||'').trim().toLowerCase();
+  var p = (document.getElementById('li-pass').value||'').trim();
+  var err = document.getElementById('login-err');
+  err.style.display = 'none';
+  if(!u || !p) { err.textContent = '❌ Username आणि Password दोन्ही भरा'; err.style.display='block'; return; }
+  var acc = APP_USERS[u];
+  if(!acc || acc.pass !== p) {
+    err.textContent = '❌ चुकीचा username किंवा password';
+    err.style.display = 'block';
+    logAttempt(u, false);
+    return;
+  }
+  CURRENT_USER = { username: u, role: acc.role, display: acc.display };
+  setSession(CURRENT_USER);
+  logAttempt(u, true);
+  showApp();
+}
+
+function doLogout() {
+  if(!confirm('Logout करायचे का?')) return;
+  CURRENT_USER = null;
+  clearSession();
+  document.getElementById('app-shell').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('li-pass').value = '';
+  document.getElementById('li-user').value = '';
+  document.getElementById('login-err').style.display = 'none';
+}
+
+function logAttempt(username, success) {
+  fetch('https://ipapi.co/json/').then(function(r){ return r.json(); }).then(function(geo) {
+    saveLog(username, success, geo.ip||'?', geo.country_name||'?', geo.city||'?', geo.region||'?');
+  }).catch(function() { saveLog(username, success, '?','?','?','?'); });
+}
+function saveLog(username, success, ip, country, city, region) {
+  var logs = JSON.parse(localStorage.getItem('login_logs')||'[]');
+  logs.unshift({ time: new Date().toISOString(), username: username, success: success, ip: ip, country: country, city: city, region: region });
+  if(logs.length > 100) logs = logs.slice(0,100);
+  localStorage.setItem('login_logs', JSON.stringify(logs));
+}
+
+function togglePw() {
+  var inp = document.getElementById('li-pass');
+  var eye = document.getElementById('pw-eye');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  eye.textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+
+function canEdit() { return CURRENT_USER && (CURRENT_USER.role === 'superadmin' || CURRENT_USER.role === 'editor'); }
+function isAdmin() { return CURRENT_USER && CURRENT_USER.role === 'superadmin'; }
+
+function showLoginLogs() {
+  if(!isAdmin()) { alert('फक्त Admin ला access आहे.'); return; }
+  var logs = JSON.parse(localStorage.getItem('login_logs')||'[]');
+  if(logs.length === 0) { alert('अजून कोणी login केले नाही.'); return; }
+  var txt = 'LOGIN इतिहास (शेवटचे ' + Math.min(logs.length,20) + '):\n\n';
+  logs.slice(0,20).forEach(function(l) {
+    var t = new Date(l.time).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+    txt += (l.success ? '✅' : '❌') + ' ' + l.username + '\n';
+    txt += '   📅 ' + t + '\n';
+    txt += '   📍 ' + l.city + ', ' + l.country + '\n';
+    txt += '   🌐 IP: ' + l.ip + '\n\n';
+  });
+  alert(txt);
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app-shell').style.display = 'block';
+  var roleLabel = CURRENT_USER.role === 'superadmin' ? '👑' : CURRENT_USER.role === 'editor' ? '✏️' : '👁️';
+  document.getElementById('topbar-user').textContent = roleLabel + ' ' + CURRENT_USER.display;
+
+  var d = new Date();
+  var months=['जानेवारी','फेब्रुवारी','मार्च','एप्रिल','मे','जून','जुलै','ऑगस्ट','सप्टेंबर','ऑक्टोबर','नोव्हेंबर','डिसेंबर'];
+  document.getElementById('topbar-date').textContent = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+
+  if(!localStorage.getItem('seedDone_v1')) { seedInitialData(); localStorage.setItem('seedDone_v1','1'); }
+  if(!localStorage.getItem('seedDone_v2')) { seedPDFMembers(); localStorage.setItem('seedDone_v2','1'); }
+
+  // Show admin log card only for superadmin
+  var logCard = document.getElementById('admin-log-card');
+  if(logCard) logCard.style.display = isAdmin() ? 'block' : 'none';
+
+  renderHome();
+  setTimeout(function() { syncFromSheets(); }, 3000);
+}
+
+// ===================== INIT =====================
+window.addEventListener('load', function() {
+  var session = getSession();
+  if(session && APP_USERS[session.username]) {
+    CURRENT_USER = session;
+    showApp();
+  } else {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app-shell').style.display = 'none';
+  }
+});
 </script>
+
+</div><!-- /app-shell -->
 </body>
 </html>
